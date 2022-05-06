@@ -1,0 +1,13 @@
+<html>
+
+  <script>
+    const ws = new WebSocket("ws://localhost:3001");
+    ws.onopen = (event) => {
+      console.log('ws is open');
+    };
+
+    ws.onmessage = (event) => {
+      console.log('msg arrived: ', event.data);
+    }
+  </script>
+</html>
