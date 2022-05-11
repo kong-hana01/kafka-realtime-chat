@@ -14,16 +14,48 @@
     </div>
   </div>
 
-  <script src="//code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+  <script src="//code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>  
   <script>
+    const msgList = document.getElementById('msgList');
+    const addChat = (message, didIsend) => {
+      const row = document.createElement('div');
+      row.classList.add('chat');
+      row.classList.add(didIsend ? 'mychat' : 'yourchat');
+      const text = document.createElement('div');
+      text.classList.add('text');
+      text.innerText = message;
+      row.append(text);
+      msgList.append(row);
+      msgList.scrollTop = msgList.scrollHeight;
+    }
+
     const ws = new WebSocket("ws://localhost:3001");
     ws.onopen = (event) => {
       console.log('ws is open');
 
+      // Send Message
       $('#btnSend').on('click', (e) => {
-        const payload = {'type': 'send_msg', 'text': $('#msgTxt').val()};
-        ws.send(JSON.stringify(payload));
+        if ($('#msgTxt').val() != ''){
+          const payload = {'type': 'send_msg', 'text': $('#msgTxt').val()};
+          ws.send(JSON.stringify(payload));
+          addChat($('#msgTxt').val(), true);
+          $('#msgTxt').val(function(index, item){
+            return"";
+          });
+        }
       });
+
+      $('#msgTxt').on('keydown', (key) => {
+        if (key.keyCode == 13 && $('#msgTxt').val() != ''){
+          const payload = {'type': 'send_msg', 'text': $('#msgTxt').val()};
+          ws.send(JSON.stringify(payload));
+          addChat($('#msgTxt').val(), true);
+          $('#msgTxt').val(function(index, item){
+            return"";
+          });
+        }
+      })
+
     };
 
     ws.onmessage = (event) => {
