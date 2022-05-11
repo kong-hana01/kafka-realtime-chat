@@ -1,0 +1,50 @@
+<html>
+  <div>
+    <div>
+      <span>채팅방</span>
+      <div style="border: 1px solid black;">
+        <div id="msgList" style="border: 1px solid black; min-height: 150px">
+          메시지 함이 비었습니다.
+        </div>
+        <div>
+          <input id="msgTxt" type="text" name="msgTxt" placeholder="메세지를 입력하세요." />
+          <button id="btnSend" type="button">보내기</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="//code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+  <script>
+    const ws = new WebSocket("ws://localhost:3001");
+    ws.onopen = (event) => {
+      console.log('ws is open');
+
+      $('#btnSend').on('click', (e) => {
+        const payload = {'type': 'send_msg', 'text': $('#msgTxt').val()};
+        ws.send(JSON.stringify(payload));
+      });
+    };
+
+    ws.onmessage = (event) => {
+      console.log('msg arrived: ', event.data);
+
+      try {
+        const payload = JSON.parse(event.data);
+        console.log("payload: ", payload);
+
+        if (payload.type === 'sync') {
+          let text = "";
+          payload.history.map((msg) => {
+            text += `<div>${msg.text}</div>`;
+          });
+
+          $('#msgList').html(text);
+        } else if (payload.type === 'receive_msg') {
+        }
+      } catch (SyntaxError) {
+        console.log("invalid payload: ", event.data);
+      }
+    }
+  </script>
+</html>
