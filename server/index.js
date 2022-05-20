@@ -4,9 +4,8 @@ import { fileURLToPath } from "url";
 
 import { WebSocketServer } from "ws";
 
-// 세션 import
-import bodyParser from 'body-parser';
-import session from 'express-session';
+import bodyParser from "body-parser";
+import session from "express-session";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,18 +13,15 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = 3000;
 
-// 세션
-//import session from 'express-session';
-
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 1000 * 60 * 60  }}))
+app.use(
+  session({ secret: "keyboard cat", cookie: { maxAge: 1000 * 60 * 60 } })
+);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname + "/index.html"));
 });
-
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
@@ -61,38 +57,39 @@ wss.on("connection", (ws) => {
   });
 });
 
-
 // login 기능 임시 구현
 let users = new Array();
 users[0] = {
-	"userId" : 1,
-	"password" : "1",
-}
+  userId: 1,
+  password: "1",
+};
 
+app.get("/login", (req, res) => {
+  res.render(__dirname + "/login.ejs", { session: req.session });
+});
 
-app.get('/login', (req, res) => {
-  res.render(__dirname + '/login.ejs', { session : req.session});
-})
-
-app.post('/login', (req, res) => {
+app.post("/login", (req, res) => {
   // 로그아웃버튼을 누른 경우
-  if(req.session.userId){
-    req.session.destroy(function(err){});
-		res.redirect("/");
-		return true;
+  if (req.session.userId) {
+    req.session.destroy(function (err) {});
+    res.redirect("/");
+    return true;
   }
 
-
   // 등록된 정보와 입력된 아이디 또는 패스워드가 틀린 경우
-  if(!(users.some(u => u.userId == req.body.id && u.password == req.body.password))){
-		// res.send("아이디 또는 비밀번호를 잘못 입력했습니다. \n입력하신 내용을 다시 확인해주세요.");
-		res.redirect("/login");
+  if (
+    !users.some(
+      (u) => u.userId == req.body.id && u.password == req.body.password
+    )
+  ) {
+    // res.send("아이디 또는 비밀번호를 잘못 입력했습니다. \n입력하신 내용을 다시 확인해주세요.");
+    res.redirect("/login");
     return false;
-	}
+  }
 
-	req.session.userId = req.body.id;
-	req.session.save(function(){
-		res.redirect("/");
-	});
-	return true;
-})
+  req.session.userId = req.body.id;
+  req.session.save(function () {
+    res.redirect("/");
+  });
+  return true;
+});
