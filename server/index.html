@@ -1,20 +1,26 @@
 <html>
-  <div>
+  <head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="//code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>  
+  </head>
+  <body>
     <div>
-      <span>채팅방</span>
-      <div style="border: 1px solid black;">
-        <div id="msgList" style="border: 1px solid black; min-height: 150px">
-          메시지 함이 비었습니다.
+      <div>
+        <span>채팅방</span>
+        <div style="border: 1px solid black;">
+          <div id="msgList" style="border: 1px solid black; min-height: 150px">
+            메시지 함이 비었습니다.
+          </div>
+          <div>
+            <input id="msgTxt" type="text" name="msgTxt" placeholder="메세지를 입력하세요." />
+            <button id="btnSend" type="button">보내기</button>
+          </form>
         </div>
-        <div>
-          <input id="msgTxt" type="text" name="msgTxt" placeholder="메세지를 입력하세요." />
-          <button id="btnSend" type="button">보내기</button>
-        </form>
       </div>
     </div>
-  </div>
-
-  <script src="//code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>  
+    <a class="login" id="logout" href = '/login'> 로그인 </a>
+  </body>
   <script>
     const msgList = document.getElementById('msgList');
     const addChat = (message, didIsend) => {

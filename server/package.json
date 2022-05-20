@@ -14,7 +14,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^3.1.8",
     "express": "^4.18.1",
+    "express-session": "^1.17.3",
     "ws": "^8.6.0"
   },
   "devDependencies": {
