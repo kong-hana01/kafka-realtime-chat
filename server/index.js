@@ -7,6 +7,8 @@ import { WebSocketServer } from "ws";
 import bodyParser from "body-parser";
 import session from "express-session";
 
+import apiAuthRouter from "./api/auth.js";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -57,39 +59,10 @@ wss.on("connection", (ws) => {
   });
 });
 
-// login 기능 임시 구현
-let users = new Array();
-users[0] = {
-  userId: 1,
-  password: "1",
-};
-
 app.get("/login", (req, res) => {
   res.render(__dirname + "/login.ejs", { session: req.session });
 });
 
-app.post("/login", (req, res) => {
-  // 로그아웃버튼을 누른 경우
-  if (req.session.userId) {
-    req.session.destroy(function (err) {});
-    res.redirect("/");
-    return true;
-  }
+app.use("/api/auth", apiAuthRouter);
 
-  // 등록된 정보와 입력된 아이디 또는 패스워드가 틀린 경우
-  if (
-    !users.some(
-      (u) => u.userId == req.body.id && u.password == req.body.password
-    )
-  ) {
-    // res.send("아이디 또는 비밀번호를 잘못 입력했습니다. \n입력하신 내용을 다시 확인해주세요.");
-    res.redirect("/login");
-    return false;
-  }
-
-  req.session.userId = req.body.id;
-  req.session.save(function () {
-    res.redirect("/");
-  });
-  return true;
-});
+export default app;
