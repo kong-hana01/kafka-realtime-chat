@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname + "/index.html"));
+  res.sendFile(path.join(__dirname + "/view/index.html"));
 });
 
 app.listen(port, () => {
@@ -60,7 +60,7 @@ wss.on("connection", (ws) => {
 });
 
 app.get("/login", (req, res) => {
-  res.render(__dirname + "/login.ejs", { session: req.session });
+  res.render(__dirname + "/view/login.ejs", { session: req.session });
 });
 
 app.use("/api/auth", apiAuthRouter);
