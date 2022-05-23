@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { getMsgHistory, sendMsg, receiveMsg, createRoom } from "./chat";
+import { getMsgHistory, sendMsg, receiveMsg, createRoom } from ".";
 
 describe("Chat interfaces", () => {
   const senderId = 1;
