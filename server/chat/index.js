@@ -1,41 +1,57 @@
 import { v4 as uuidv4 } from "uuid";
 
-import { Kafka } from "kafkajs";
+import { Kafka, logLevel } from "kafkajs";
 
-const kafka = new Kafka({ clientId: "app", brokers: ["localhost:29092"] });
+const kafka = new Kafka({
+  clientId: "app",
+  brokers: ["localhost:29092"],
+  logLevel: logLevel.ERROR,
+});
 
-const sendMsg = async (senderId, receiverId, roomId, text) => {
-  return {
-    id: 10000,
-    roomId: roomId,
-    timestamp: "2020-01-01 00:00:00",
-    text: text,
-    senderId: senderId,
-    receiverId: receiverId,
-  };
+const generateUniqueID = () => {
+  return uuidv4();
 };
 
-const getMsgHistory = async (roomId) => {
-  const msgHistory = [
-    {
-      id: 1,
-      roomId: roomId,
-      timestamp: "2020-01-01 00:00:00",
-      text: "Hello, world!",
-      senderId: 1,
-      receiverId: 100,
-    },
-    {
-      id: 2,
-      roomId: roomId,
-      timestamp: "2020-01-02 00:00:00",
-      text: "Hello2 world! End of Sync",
-      senderId: 100,
-      receiverId: 1,
-    },
-  ];
+const sendMsg = async (senderId, receiverId, roomId, text) => {
+  const msgId = generateUniqueID();
 
-  return msgHistory;
+  const producer = kafka.producer();
+  await producer.connect();
+
+  const msg = {
+    id: msgId,
+    senderId,
+    receiverId,
+    text,
+  };
+
+  const kafkaMsg = {
+    key: roomId,
+    value: JSON.stringify(msg),
+  };
+
+  await producer.send({
+    topic: roomId,
+    messages: [kafkaMsg],
+  });
+
+  return msg;
+};
+
+const getMsgHistory = async (roomId, cb) => {
+  const consumer = kafka.consumer({ groupId: generateUniqueID() });
+
+  await consumer.connect();
+  await consumer.subscribe({ topic: roomId, fromBeginning: true });
+
+  await consumer.run({
+    eachMessage: async ({ topic, partition, message: kafkaMsg }) => {
+      const msg = JSON.parse(kafkaMsg.value.toString());
+      msg.timestamp = kafkaMsg.timestamp;
+
+      cb(msg);
+    },
+  });
 };
 
 const receiveMsg = async (userId, roomId) => {
@@ -43,7 +59,8 @@ const receiveMsg = async (userId, roomId) => {
 };
 
 const createRoom = async () => {
-  const roomId = uuidv4();
+  // const roomId = uuidv4();
+  const roomId = "test-room2";
 
   const producer = kafka.producer();
   await producer.connect();
@@ -62,4 +79,16 @@ const createRoom = async () => {
   return roomId;
 };
 
-export { sendMsg, getMsgHistory, receiveMsg, createRoom };
+const deleteRoom = async (roomId) => {
+  const admin = kafka.admin();
+  await admin.connect();
+
+  await admin.deleteTopics({
+    topics: [roomId],
+    timeout: 3000,
+  });
+
+  await admin.disconnect();
+};
+
+export { sendMsg, getMsgHistory, receiveMsg, createRoom, deleteRoom };

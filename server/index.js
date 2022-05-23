@@ -8,6 +8,7 @@ import bodyParser from "body-parser";
 import session from "express-session";
 
 import apiAuthRouter from "./api/auth.js";
+import { getMsgHistory } from "./chat/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -47,7 +48,12 @@ const msgHistory = [
 ];
 
 wss.on("connection", (ws) => {
-  ws.send(JSON.stringify({ type: "sync", history: msgHistory }));
+  const init = async () => {
+    await getMsgHistory("test-room2", (msg) => {
+      ws.send(JSON.stringify({ type: "receive_msg", ...msg }));
+    });
+  };
+  init();
 
   ws.on("message", (data, isBinary) => {
     try {

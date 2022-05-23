@@ -67,21 +67,14 @@
     ws.onmessage = (event) => {
       console.log('msg arrived: ', event.data);
 
-      try {
-        const payload = JSON.parse(event.data);
-        console.log("payload: ", payload);
+      const payload = JSON.parse(event.data);
+      console.log("payload: ", payload);
 
-        if (payload.type === 'sync') {
-          let text = "";
-          payload.history.map((msg) => {
-            text += `<div>${msg.text}</div>`;
-          });
+      if (payload.type === 'receive_msg') {
+        let text = "";
+        text += `<div>${payload.text}</div>`;
 
-          $('#msgList').html(text);
-        } else if (payload.type === 'receive_msg') {
-        }
-      } catch (SyntaxError) {
-        console.log("invalid payload: ", event.data);
+        $('#msgList').append(text);
       }
     }
   </script>
