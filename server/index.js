@@ -9,12 +9,14 @@ import session from "express-session";
 
 import apiAuthRouter from "./api/auth.js";
 import { getMsgHistory } from "./chat/index.js";
+import cors from 'cors';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const port = 3000;
+// const port = 3000;
+const port = 5000;
 
 app.use(
   session({ secret: "keyboard cat", cookie: { maxAge: 1000 * 60 * 60 } })
@@ -22,7 +24,12 @@ app.use(
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.use("/apiAuthRouter", apiAuthRouter);
+
+app.use(cors({ origin: 'http://localhost:3000'}));
+
 app.get("/", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
   res.sendFile(path.join(__dirname + "/view/index.html"));
 });
 
