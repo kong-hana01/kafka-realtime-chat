@@ -2,9 +2,9 @@ const proxy = require("http-proxy-middleware");
 
 module.exports = function (app) {
   app.use(
-    "/apiAuthRouter/login",
+    "/api",
     proxy({
-      target: "/login",
+      target: "http://localhost:5000",
       changeOrigin: true,
     })
   );

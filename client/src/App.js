@@ -7,7 +7,7 @@ class App extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      title: null
+      id: null
     }
   }
 
@@ -20,7 +20,7 @@ class App extends React.Component{
   render() {return (
       <Router>
         <Routes>
-          {this.state.title?<Route path="/chat" element={<Chat />} />: <Route exact path="/login" element={<Login />} />}
+          {this.state.id?<Route path="/chat" element={<Chat />} />: <Route exact path="/login" element={<Login />} />}
           
         </Routes>
       </Router>

@@ -18,7 +18,7 @@ const Login = () => {
   // login 버튼 클릭 이벤트
   const onClickLogin = () => {
     axios
-      .post("http://localhost:5000/login", {
+      .post("http://localhost:5000/apiAuthRouter", {
         id: inputId,
         password: inputPw,
       })
@@ -38,11 +38,7 @@ const Login = () => {
   return (
     <div>
       <h2>Login</h2>
-      <form
-        //action="http://localhost:5000/login"
-        //onSubmit={onClickLogin}
-        //method="post"
-      >
+      <form>
         <div>
           <label htmlFor="input_id">ID : </label>
           <input
