@@ -16,7 +16,7 @@ apiAuthRouter.post("/login", (req, res) => {
   // 로그아웃버튼을 누른 경우
   if (req.session.userId) {
     req.session.destroy(function (err) {});
-    res.redirect("/");
+    res.send(true);
     return true;
   }
 
@@ -27,13 +27,13 @@ apiAuthRouter.post("/login", (req, res) => {
     )
   ) {
     // res.send("아이디 또는 비밀번호를 잘못 입력했습니다. \n입력하신 내용을 다시 확인해주세요.");
-    res.redirect("/login");
+    res.send(false);
     return false;
   }
 
   req.session.userId = req.body.id;
   req.session.save(function () {
-    res.redirect("/");
+    res.send(true);
   });
   return true;
 });
