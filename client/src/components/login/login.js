@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { loginCall } from "../../apiCalls";
+// import { loginCall } from "../../apiCalls";
 
 const Login = () => {
   const [inputId, setInputId] = useState("");
@@ -22,21 +22,16 @@ const Login = () => {
         password: inputPw,
       })
       .then((res) => {
-        res.data ? sessionStorage.setItem('user_id', inputId) : console.log("로그인 정보가 일치하지 않습니다.");
-        document.location.href = "/";
+        if (res.data){
+          sessionStorage.setItem('user_id', inputId);
+          document.location.href = "/";
+        }
+        else{
+          console.log("로그인 정보가 일치하지 않습니다.");
+        }
       })
       .catch(console.log(inputId, inputPw));
   };
-
-  // // 페이지 렌더링 후 가장 처음 호출되는 함수
-  //   useEffect(() => {
-  //       axios.get('http://localhost:5000/login')
-  //       .then(res => console.log(res))
-  //       .catch()
-  //   },
-  //   // 페이지 호출 후 처음 한번만 호출될 수 있도록 [] 추가
-  //   [])
-
   return (
     <div>
       <h2>Login</h2>
