@@ -13,29 +13,21 @@ users[1] = {
 };
 
 apiAuthRouter.post("/login", (req, res) => {
-  // 로그아웃버튼을 누른 경우
-  if (req.session.userId) {
-    req.session.destroy(function (err) {});
-    res.send(true);
-    return true;
-  }
-
   // 등록된 정보와 입력된 아이디 또는 패스워드가 틀린 경우
-  if (
-    !users.some(
-      (u) => u.userId == req.body.id && u.password == req.body.password
-    )
-  ) {
-    // res.send("아이디 또는 비밀번호를 잘못 입력했습니다. \n입력하신 내용을 다시 확인해주세요.");
-    res.send(false);
-    return false;
-  }
-
-  req.session.userId = req.body.id;
-  req.session.save(function () {
-    res.send(true);
-  });
-  return true;
+  if (users.some((u) => u.userId == req.body.id && u.password == req.body.password)) {
+    res.send(true); }
+  else{
+    res.send(false); }
 });
+
+apiAuthRouter.get("/:userId", (req, res) => {
+  if(users.some((u) => u.userId == req.params.userId)){ 
+    res.send(users);
+  }
+  else res.send(false);
+});
+
+
+
 
 export default apiAuthRouter;
