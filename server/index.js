@@ -9,7 +9,7 @@ import session from "express-session";
 
 import apiAuthRouter from "./api/auth.js";
 import { getMsgHistory } from "./chat/index.js";
-import cors from 'cors';
+import cors from "cors";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 
 // app.use("/apiAuthRouter", apiAuthRouter);
 
-app.use(cors({ origin: 'http://localhost:3000'}));
+app.use(cors({ origin: "http://localhost:3000" }));
 
 app.get("/", (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -54,8 +54,11 @@ const msgHistory = [
   },
 ];
 
-wss.on("connection", (ws) => {
+wss.on("connection", (ws, req) => {
   const init = async () => {
+    // 채팅 방 번호
+    ws.location = req.url.split("?")[1];
+    // ws.location
     await getMsgHistory("test-room2", (msg) => {
       ws.send(JSON.stringify({ type: "receive_msg", ...msg }));
     });
@@ -65,7 +68,15 @@ wss.on("connection", (ws) => {
   ws.on("message", (data, isBinary) => {
     try {
       const payload = JSON.parse(data);
-      console.log("payload: ", payload);
+      //console.log("payload: ", payload, ws.location, wss.clients.location);
+      wss.clients.forEach((client) => {
+        console.log(client.location.split('=')[1], data.toString().split(':')[3].split('}')[0]);
+
+        if(client.location.split('=')[1] != data.toString().split(':')[3].split('}')[0]){
+        client.send(data.toString());
+        console.log(123123123);
+        }
+      })
     } catch (SyntaxError) {
       console.log("invalid payload: ", data.toString());
     }

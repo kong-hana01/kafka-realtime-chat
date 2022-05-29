@@ -2,24 +2,22 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./TotalUsers.css";
 
-function User(users) {
+function User({users, setCurrentChat}) {
   const [user, setUser] = useState(null);
 
   useEffect(() =>{
-    const otherUserId = users.users.userId;
+    const otherUserId = users.userId;
     setUser(otherUserId);
   }, []);
 
   return (
-    <div>
+    <div onClick={() => setCurrentChat(user)}>
       <div className="userInformation">{user}</div>
     </div>
   );
 }
 
-export const TotalUsers = () => {
-  const [totalUsers, setTotalUsers] = useState([]);
-
+export const TotalUsers = ({totalUsers, setTotalUsers, setCurrentChat}) => {
   const getUsers = () => {
     try {
       axios
@@ -43,7 +41,6 @@ export const TotalUsers = () => {
   useEffect(() => {
     try {
       getUsers();
-      console.log(1);
     } catch (err) {
       console.log(err);
     }
@@ -58,7 +55,7 @@ export const TotalUsers = () => {
         </button>
       </div>
       {totalUsers.map((u) => (
-        <User users={u}/>
+        <User users={u} key = {u.userId} setCurrentChat= {setCurrentChat}/>
       ))}
 
     </div>
