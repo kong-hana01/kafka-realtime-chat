@@ -1,39 +1,71 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "./TotalUsers.css";
 
+function User(users) {
+  const [user, setUser] = useState(null);
 
-function User(){
+  useEffect(() =>{
+    const otherUserId = users.users.userId != sessionStorage.getItem("user_id")?users.users.userId:null;
+    // console.log(otherUserId);
+    setUser(otherUserId);
+  }, []);
 
+  return (
+    <div>
+      <div className="userInformation">{user}</div>
+    </div>
+  );
 }
-
 
 export const TotalUsers = () => {
-    const [totalUsers, setTotalUsers] = useState([{
-        id: sessionStorage.getItem('user_id'),
-        online: true
-    }]);
+  const [totalUsers, setTotalUsers] = useState([]);
 
-    const getUsers = () => {
-        axios
-        .get("http://localhost:5000/api/auth/" + sessionStorage.getItem('user_id'))
+  const getUsers = () => {
+
+
+    try {
+      axios
+        .get(
+          "http://localhost:5000/api/auth/" + sessionStorage.getItem("user_id")
+        )
         .then((res) => {
-          if (res.data){
-            console.log(res.data);
+          if (res.data) {
+            setTotalUsers(res.data);
+          } else {
+            console.log(
+              "채팅가능 목록을 확인하기 위해선 로그인을 하셔야합니다."
+            );
           }
-          else{
-            console.log("채팅가능 목록을 확인하기 위해선 로그인을 하셔야합니다.");
-          }
-        })
-        .catch(console.log(sessionStorage.getItem('user_id')));
-      };
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
+  useEffect(() => {
+    try {
+      getUsers();
+      console.log(1);
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
-    return (
-        <div>
-            <button onClick={getUsers}>새로고침</button>
-            {/* {totalUsers} */}
-        </div>
-    )
-}
+  return (
+    <div>
+      <div className="searchUsers">
+        <input placeholder="Search for Users" className="SearchUserInput" />
+        <button onClick={getUsers} className="refresh">
+          새로고침
+        </button>
+      </div>
+      {totalUsers.map((u) => (
+        <User users={u}/>
+      ))}
 
-export default TotalUsers
+    </div>
+  );
+};
+
+export default TotalUsers;

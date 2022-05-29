@@ -1,0 +1,30 @@
+.SearchUserInput {
+    width: 90%;
+    padding: 10px 0;
+    border: none;
+    border-bottom: 1px solid gray;
+    align-items: center;
+}
+
+.searchUsers{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.refresh {
+    width: 30%;
+    height: 30%;
+    margin: 10px 10px 10px 10px;
+}
+
+.userInformation{
+    padding: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.userInformation:hover{
+    background-color: rgb(245, 243, 243);
+}

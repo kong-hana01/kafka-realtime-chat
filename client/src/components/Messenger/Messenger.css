@@ -1,0 +1,18 @@
+.messenger {
+    display: flex;
+    width: 100%;
+}
+
+.TotalUsers{
+    flex: 3.5;
+}
+
+.ChatRoom{
+    flex: 5.5;
+}
+
+
+.TotalUserWrapper,.ChatRoomWrapper{
+    padding: 10px;
+    height: 100%;
+}

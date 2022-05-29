@@ -1,19 +1,26 @@
 import React, {useEffect, useState} from 'react'
 import TotalUsers from "../TotalUsers/TotalUsers";
 import ChatRoom from "../ChatRoom/ChatRoom";
+import './Messenger.css';
 
 const Messenger = () => {
 
 
     return (
-        <div>
-            <div>
-                <div className = 'TotalUsers'><TotalUsers /> </div>
+        <>
+        <div className = 'messenger'>
+            <div className = 'TotalUsers'>
+                <div className='TotalUserWrapper'>
+                    <TotalUsers /> 
+                </div>
             </div>
-            <div>
-                <div className = 'ChatRoom'><ChatRoom /> </div>
+            <div className = 'ChatRoom'>
+                <div className='ChatRoomWrapper'>
+                    <ChatRoom /> 
+                </div>
             </div>
         </div>
+        </>
     )
 }
 
