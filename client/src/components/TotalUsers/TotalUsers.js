@@ -6,8 +6,7 @@ function User(users) {
   const [user, setUser] = useState(null);
 
   useEffect(() =>{
-    const otherUserId = users.users.userId != sessionStorage.getItem("user_id")?users.users.userId:null;
-    // console.log(otherUserId);
+    const otherUserId = users.users.userId;
     setUser(otherUserId);
   }, []);
 
@@ -22,8 +21,6 @@ export const TotalUsers = () => {
   const [totalUsers, setTotalUsers] = useState([]);
 
   const getUsers = () => {
-
-
     try {
       axios
         .get(

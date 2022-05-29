@@ -16,3 +16,11 @@
     padding: 10px;
     height: 100%;
 }
+
+.ChatRoomWrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+
