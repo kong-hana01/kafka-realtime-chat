@@ -2,22 +2,37 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./TotalUsers.css";
 
-function User({users, setCurrentChat}) {
+function User({ users, setCurrentChat, setMessages, setRoomId }) {
   const [user, setUser] = useState(null);
 
-  useEffect(() =>{
-    const otherUserId = users.userId;
-    setUser(otherUserId);
+  useEffect(() => {
+    // const otherUserId = users.userId;
+    setUser(users.userId);
   }, []);
 
+  const changeCurrentChat = () => {
+    setCurrentChat(user);
+
+    // RoomId 초기화
+    setRoomId(user);
+    // Message 초기화
+    setMessages([]);
+  };
+
   return (
-    <div onClick={() => setCurrentChat(user)}>
+    <div onClick={changeCurrentChat}>
       <div className="userInformation">{user}</div>
     </div>
   );
 }
 
-export const TotalUsers = ({totalUsers, setTotalUsers, setCurrentChat}) => {
+export const TotalUsers = ({
+  totalUsers,
+  setTotalUsers,
+  setCurrentChat,
+  setMessages,
+  setRoomId,
+}) => {
   const getUsers = () => {
     try {
       axios
@@ -55,9 +70,14 @@ export const TotalUsers = ({totalUsers, setTotalUsers, setCurrentChat}) => {
         </button>
       </div>
       {totalUsers.map((u) => (
-        <User users={u} key = {u.userId} setCurrentChat= {setCurrentChat}/>
+        <User
+          users={u}
+          key={u.userId}
+          setCurrentChat={setCurrentChat}
+          setMessages={setMessages}
+          setRoomId={setRoomId}
+        />
       ))}
-
     </div>
   );
 };

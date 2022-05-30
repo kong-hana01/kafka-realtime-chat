@@ -67,16 +67,16 @@ wss.on("connection", (ws, req) => {
 
   ws.on("message", (data, isBinary) => {
     try {
-      const payload = JSON.parse(data);
-      //console.log("payload: ", payload, ws.location, wss.clients.location);
+      let payload = JSON.parse(data);
+      payload.type = 'receive_msg';
       wss.clients.forEach((client) => {
-        console.log(client.location.split('=')[1], data.toString().split(':')[3].split('}')[0]);
-
-        if(client.location.split('=')[1] != data.toString().split(':')[3].split('}')[0]){
-        client.send(data.toString());
-        console.log(123123123);
+        if (
+          // RoomId로 변경 필요
+          client.location.split("=")[1] == payload.sender
+        ) {
+          client.send(JSON.stringify(payload));
         }
-      })
+      });
     } catch (SyntaxError) {
       console.log("invalid payload: ", data.toString());
     }
