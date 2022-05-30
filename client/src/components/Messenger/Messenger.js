@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, {useState} from "react";
 import TotalUsers from "../TotalUsers/TotalUsers";
 import ChatRoom from "../ChatRoom/ChatRoom";
 import "./Messenger.css";

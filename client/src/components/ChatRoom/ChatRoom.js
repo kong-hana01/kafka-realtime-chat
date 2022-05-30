@@ -44,7 +44,7 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
   });
 
   const sendMsg = () => {
-    if (sendMessages != "") {
+    if (sendMessages !== "") {
       const payload = {
         type: "send_msg",
         text: sendMessages,
@@ -64,7 +64,7 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
         <>
           <div className="chatRoomTop">
             {messages.map((m) => (
-              <Message message={m} own={m.type == "send_msg"} />
+              <Message message={m} own={m.type === "send_msg"} />
             ))}
           </div>
           <div className="chatRoomBottom">
