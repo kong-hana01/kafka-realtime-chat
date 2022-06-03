@@ -1,9 +1,11 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import axios from "axios";
+import Join from "../Join/Join";
 
-const Login = () => {
+const Login = ({setIsJoin}) => {
   const [inputId, setInputId] = useState("");
   const [inputPw, setInputPw] = useState("");
+
   // input data 의 변화가 있을 때마다 value 값을 변경해서 useState 해준다
   const handleInputId = (e) => {
     setInputId(e.target.value);
@@ -21,15 +23,18 @@ const Login = () => {
         password: inputPw,
       })
       .then((res) => {
-        if (res.data){
-          sessionStorage.setItem('user_id', inputId);
+        if (res.data) {
+          sessionStorage.setItem("user_id", inputId);
           document.location.href = "/";
-        }
-        else{
+        } else {
           console.log("로그인 정보가 일치하지 않습니다.");
         }
       })
       .catch(console.log(inputId, inputPw));
+  };
+
+  const onClickJoin = () => {
+    setIsJoin(true);
   };
   return (
     <div>
@@ -59,6 +64,9 @@ const Login = () => {
           </button>
         </div>
       </form>
+      <button type="button" onClick={onClickJoin}>
+          Join
+        </button> 
     </div>
   );
 };
