@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const Login = () => {
+const Login = ({setIsJoin}) => {
   const [inputId, setInputId] = useState("");
   const [inputPw, setInputPw] = useState("");
+
   // input data 의 변화가 있을 때마다 value 값을 변경해서 useState 해준다
   const handleInputId = (e) => {
     setInputId(e.target.value);
@@ -29,6 +30,10 @@ const Login = () => {
         }
       })
       .catch(console.log(inputId, inputPw));
+  };
+
+  const onClickJoin = () => {
+    setIsJoin(true);
   };
   return (
     <div>
@@ -58,6 +63,9 @@ const Login = () => {
           </button>
         </div>
       </form>
+      <button type="button" onClick={onClickJoin}>
+          Join
+        </button> 
     </div>
   );
 };
