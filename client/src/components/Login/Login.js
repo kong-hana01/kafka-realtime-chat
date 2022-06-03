@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Join from "../Join/Join";
 
 const Login = ({setIsJoin}) => {
   const [inputId, setInputId] = useState("");
