@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Messenger from "./components/Messenger/Messenger";
-import Login from "./components/Login/Login";
+import LoginPage from "./components/LoginPage/LoginPage";
 
 
 function App () {
@@ -16,7 +16,7 @@ function App () {
   }, [])
   return (
     <div>
-      {isLogin ? <Messenger /> : <Login />}
+      {isLogin ? <Messenger /> : <LoginPage />}
     </div>
   )
 
