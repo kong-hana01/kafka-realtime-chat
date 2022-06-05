@@ -16,7 +16,7 @@ function App () {
   }, [])
   return (
     <div>
-      {isLogin ? <Messenger /> : <LoginPage />}
+      {isLogin ? <Messenger setIsLogin = {setIsLogin}/> : <LoginPage />}
     </div>
   )
 

@@ -1,4 +1,4 @@
-.messenger {
+.messengerContents {
     display: flex;
     width: 100%;
 }
@@ -24,3 +24,6 @@
     position: relative;
 }
 
+.Logout{
+    display: block;
+}

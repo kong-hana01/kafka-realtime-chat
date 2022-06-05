@@ -3,15 +3,21 @@ import TotalUsers from "../TotalUsers/TotalUsers";
 import ChatRoom from "../ChatRoom/ChatRoom";
 import "./Messenger.css";
 
-const Messenger = () => {
+const Messenger = ({setIsLogin}) => {
   const [totalUsers, setTotalUsers] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [roomId, setRoomId] = useState([]);
 
+  const onClickLogout = () => {
+    sessionStorage.setItem("user_id", null);
+    setIsLogin(false);
+  }
+
   return (
     <>
-      <div className="messenger">
+    <div className="messenger">
+      <div className="messengerContents">
         <div className="TotalUsers">
           <div className="TotalUserWrapper">
             <TotalUsers
@@ -33,6 +39,10 @@ const Messenger = () => {
             />
           </div>
         </div>
+      </div>
+      <button onClick={onClickLogout} className="Logout">
+          Logout
+        </button>
       </div>
     </>
   );
