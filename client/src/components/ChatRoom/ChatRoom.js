@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { CHAT_API_URL } from "../../constants";
 import "./ChatRoom.css";
 
 function Message({ message, own }) {
@@ -21,7 +22,7 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
   };
 
   useEffect(() => {
-    ws.current = new WebSocket("ws://localhost:3001?roomId=" + roomId);
+    ws.current = new WebSocket(`${CHAT_API_URL}?roomId=` + roomId);
     ws.current.onopen = (event) => {
       console.log("ws is open", ws.current);
 

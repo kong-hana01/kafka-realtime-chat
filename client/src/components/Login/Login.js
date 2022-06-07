@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { API_URL } from "../../constants";
 
 const Login = ({ setIsJoin }) => {
   const [inputId, setInputId] = useState("");
@@ -17,7 +18,7 @@ const Login = ({ setIsJoin }) => {
   // login 버튼 클릭 이벤트
   const onClickLogin = () => {
     axios
-      .post("http://localhost:5050/api/auth/login", {
+      .post(`${API_URL}/api/auth/login`, {
         id: inputId,
         password: inputPw,
       })
