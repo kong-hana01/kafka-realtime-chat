@@ -34,7 +34,11 @@ const store = new (SequelizeStore(session.Store))({ db: sequelize });
 store.sync();
 
 app.use(
-  session({ secret: "keyboard cat", cookie: { maxAge: 1000 * 60 * 60 }, store })
+  session({
+    secret: process.env.SECRET || "keyboard cat",
+    cookie: { maxAge: 1000 * 60 * 60 },
+    store,
+  })
 );
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
