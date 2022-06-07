@@ -83,10 +83,6 @@ wss.on("connection", (ws, req) => {
   });
 });
 
-app.get("/login", (req, res) => {
-  res.render(__dirname + "/view/login.ejs", { session: req.session });
-});
-
 app.use("/api/auth", apiAuthRouter);
 
 export default app;
