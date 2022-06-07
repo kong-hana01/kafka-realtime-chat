@@ -1,16 +1,12 @@
-import { v4 as uuidv4 } from "uuid";
-
 import { Kafka, logLevel } from "kafkajs";
+import { generateUniqueID } from "../utils.js";
+import { getRoomId } from "./room.js";
 
 const kafka = new Kafka({
   clientId: "app",
   brokers: ["localhost:29092"],
   logLevel: logLevel.ERROR,
 });
-
-const generateUniqueID = () => {
-  return uuidv4();
-};
 
 const sendMsg = async (senderId, receiverId, roomId, text) => {
   const msgId = generateUniqueID();
@@ -58,9 +54,8 @@ const receiveMsg = async (userId, roomId) => {
   return null;
 };
 
-const createRoom = async () => {
-  // const roomId = uuidv4();
-  const roomId = "test-room2";
+const createRoom = async (senderId, receiverId) => {
+  const roomId = getRoomId(senderId, receiverId);
 
   const producer = kafka.producer();
   await producer.connect();
