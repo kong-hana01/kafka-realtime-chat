@@ -37,7 +37,7 @@ export const TotalUsers = ({
     try {
       axios
         .get(
-          "http://localhost:5000/api/auth/" + sessionStorage.getItem("user_id")
+          "http://localhost:5050/api/auth/" + sessionStorage.getItem("user_id")
         )
         .then((res) => {
           if (res.data) {

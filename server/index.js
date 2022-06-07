@@ -15,8 +15,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-// const port = 3000;
-const port = 5000;
+const port = 5050;
 
 app.use(
   session({ secret: "keyboard cat", cookie: { maxAge: 1000 * 60 * 60 } })
@@ -68,7 +67,7 @@ wss.on("connection", (ws, req) => {
   ws.on("message", (data, isBinary) => {
     try {
       let payload = JSON.parse(data);
-      payload.type = 'receive_msg';
+      payload.type = "receive_msg";
       wss.clients.forEach((client) => {
         if (
           // RoomId로 변경 필요
