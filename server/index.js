@@ -38,21 +38,6 @@ app.listen(port, () => {
 
 const wss = new WebSocketServer({ port: 3001 });
 
-const msgHistory = [
-  {
-    type: "msg",
-    id: "asdf1",
-    timestamp: "2020-01-01 00:00:00",
-    text: "Hello, world!",
-  },
-  {
-    type: "msg",
-    id: "asdf2",
-    timestamp: "2020-01-02 00:00:00",
-    text: "Hello2 world! End of Sync",
-  },
-];
-
 wss.on("connection", (ws, req) => {
   const init = async () => {
     // 채팅 방 번호
@@ -69,10 +54,7 @@ wss.on("connection", (ws, req) => {
       let payload = JSON.parse(data);
       payload.type = "receive_msg";
       wss.clients.forEach((client) => {
-        if (
-          // RoomId로 변경 필요
-          client.location.split("=")[1] == payload.sender
-        ) {
+        if (client.location.split("=")[1] == payload.sender) {
           client.send(JSON.stringify(payload));
         }
       });

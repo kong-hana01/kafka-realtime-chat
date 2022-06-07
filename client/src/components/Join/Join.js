@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { API_URL } from "../../constants";
 
 const Join = () => {
   const [inputId, setInputId] = useState("");
@@ -38,7 +39,7 @@ const Join = () => {
     }
 
     axios
-      .put("http://localhost:5050/api/auth/login", {
+      .put(`${API_URL}/api/auth/login`, {
         id: inputId,
         password: inputPw,
       })

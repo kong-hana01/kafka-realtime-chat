@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./TotalUsers.css";
+import { API_URL } from "../../constants";
 
 function User({ users, setCurrentChat, setMessages, setRoomId }) {
   const [user, setUser] = useState(null);
@@ -36,9 +37,7 @@ export const TotalUsers = ({
   const getUsers = () => {
     try {
       axios
-        .get(
-          "http://localhost:5050/api/auth/" + sessionStorage.getItem("user_id")
-        )
+        .get(`${API_URL}/api/auth/` + sessionStorage.getItem("user_id"))
         .then((res) => {
           if (res.data) {
             setTotalUsers(res.data);
