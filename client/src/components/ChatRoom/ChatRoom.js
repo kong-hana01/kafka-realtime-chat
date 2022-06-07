@@ -22,16 +22,25 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
   };
 
   useEffect(() => {
-    ws.current = new WebSocket(`${CHAT_API_URL}?roomId=` + roomId);
+    if (!currentChat) {
+      return;
+    }
+
+    const url = new URL(CHAT_API_URL);
+    url.searchParams.append("senderId", sessionStorage.getItem("user_id"));
+    url.searchParams.append("receiverId", currentChat);
+
+    ws.current = new WebSocket(url.href);
     ws.current.onopen = (event) => {
       console.log("ws is open", ws.current);
-
-      // Message History 복구
-      // setMessages([])
     };
   }, [currentChat]);
 
   useEffect(() => {
+    if (!currentChat) {
+      return;
+    }
+
     ws.current.onmessage = (event) => {
       console.log("msg arrived: ", event.data);
 
@@ -39,7 +48,7 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
       console.log("payload: ", payload);
 
       if (payload.type === "receive_msg") {
-        setMessages([...messages, payload]);
+        setMessages((messages) => [...messages, payload]);
       }
     };
   });
@@ -49,13 +58,12 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
       const payload = {
         type: "send_msg",
         text: sendMessages,
-        sender: sessionStorage.getItem("user_id"),
-        receiver: currentChat,
+        senderId: sessionStorage.getItem("user_id"),
+        receiverId: currentChat,
         timestamp: Date(),
       };
       console.log(ws.current);
       ws.current.send(JSON.stringify(payload));
-      setMessages([...messages, payload]);
     }
   };
 
@@ -64,9 +72,14 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
       {currentChat ? (
         <>
           <div className="chatRoomTop">
-            {messages.map((m) => (
-              <Message message={m} own={m.type === "send_msg"} />
-            ))}
+            {messages
+              .sort((m1, m2) => m1.timestamp < m2.timestamp)
+              .map((m) => (
+                <Message
+                  message={m}
+                  own={m.senderId === sessionStorage.getItem("user_id")}
+                />
+              ))}
           </div>
           <div className="chatRoomBottom">
             <input
