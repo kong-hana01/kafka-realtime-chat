@@ -7,11 +7,13 @@ import { WebSocketServer } from "ws";
 
 import bodyParser from "body-parser";
 import session from "express-session";
+import SequelizeStore from "connect-session-sequelize";
 
 import apiAuthRouter from "./api/auth.js";
 import { getMsgHistory, sendMsg } from "./chat/index.js";
 import cors from "cors";
 import { getRoomId } from "./chat/room.js";
+import sequelize from "./models/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,8 +21,20 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = 5050;
 
+try {
+  await sequelize.authenticate();
+  console.log("Connection has been established successfully.");
+} catch (error) {
+  console.error("Unable to connect to the database:", error);
+}
+
+await sequelize.sync();
+
+const store = new (SequelizeStore(session.Store))({ db: sequelize });
+store.sync();
+
 app.use(
-  session({ secret: "keyboard cat", cookie: { maxAge: 1000 * 60 * 60 } })
+  session({ secret: "keyboard cat", cookie: { maxAge: 1000 * 60 * 60 }, store })
 );
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
