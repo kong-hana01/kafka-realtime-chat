@@ -38,7 +38,7 @@ const Join = () => {
     }
 
     axios
-      .put("http://localhost:5000/api/auth/login", {
+      .put("http://localhost:5050/api/auth/login", {
         id: inputId,
         password: inputPw,
       })

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const Login = ({setIsJoin}) => {
+const Login = ({ setIsJoin }) => {
   const [inputId, setInputId] = useState("");
   const [inputPw, setInputPw] = useState("");
 
@@ -17,7 +17,7 @@ const Login = ({setIsJoin}) => {
   // login 버튼 클릭 이벤트
   const onClickLogin = () => {
     axios
-      .post("http://localhost:5000/api/auth/login", {
+      .post("http://localhost:5050/api/auth/login", {
         id: inputId,
         password: inputPw,
       })
@@ -64,8 +64,8 @@ const Login = ({setIsJoin}) => {
         </div>
       </form>
       <button type="button" onClick={onClickJoin}>
-          Join
-        </button> 
+        Join
+      </button>
     </div>
   );
 };
