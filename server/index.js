@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import url from "url";
 import { fileURLToPath } from "url";
 
 import { WebSocketServer } from "ws";
@@ -8,8 +9,9 @@ import bodyParser from "body-parser";
 import session from "express-session";
 
 import apiAuthRouter from "./api/auth.js";
-import { getMsgHistory } from "./chat/index.js";
+import { getMsgHistory, sendMsg } from "./chat/index.js";
 import cors from "cors";
+import { getRoomId } from "./chat/room.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -40,10 +42,11 @@ const wss = new WebSocketServer({ port: 3001 });
 
 wss.on("connection", (ws, req) => {
   const init = async () => {
-    // 채팅 방 번호
     ws.location = req.url.split("?")[1];
-    // ws.location
-    await getMsgHistory("test-room2", (msg) => {
+
+    const { senderId, receiverId } = url.parse(req.url, true).query;
+
+    await getMsgHistory(getRoomId(senderId, receiverId), (msg) => {
       ws.send(JSON.stringify({ type: "receive_msg", ...msg }));
     });
   };
@@ -52,12 +55,13 @@ wss.on("connection", (ws, req) => {
   ws.on("message", (data, isBinary) => {
     try {
       let payload = JSON.parse(data);
-      payload.type = "receive_msg";
-      wss.clients.forEach((client) => {
-        if (client.location.split("=")[1] == payload.sender) {
-          client.send(JSON.stringify(payload));
-        }
-      });
+
+      if (payload.type === "send_msg") {
+        const { senderId, receiverId, text } = payload;
+
+        const roomId = getRoomId(senderId, receiverId);
+        sendMsg(senderId, receiverId, roomId, text);
+      }
     } catch (SyntaxError) {
       console.log("invalid payload: ", data.toString());
     }
