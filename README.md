@@ -27,20 +27,9 @@ Instead of using a relational database for chat implementation, Apache Kafka is 
 - Publishing
 - WebSocket Client
 
-
 ### Server
 
-#### How to run node server
-
 ```sh
-npm install
-node index.js
-```
-
-Go to http://localhost:3000
-
-#### How to run Kafka
-
-```sh
+cd server
 docker compose up
 ```
