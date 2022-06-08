@@ -82,6 +82,7 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
         timestamp: now.getHours() + ":" + now.getMinutes(),
       };
       ws.current.send(JSON.stringify(payload));
+      setSendMessages("");
     }
   };
 
