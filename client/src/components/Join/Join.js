@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { API_URL } from "../../constants";
+import "bootstrap/dist/css/bootstrap.css";
+import "./Join.css";
 
-const Join = () => {
+const Join = ({setIsJoin}) => {
   const [inputId, setInputId] = useState("");
   const [inputPw, setInputPw] = useState("");
   // input data 의 변화가 있을 때마다 value 값을 변경해서 useState 해준다
@@ -29,12 +31,12 @@ const Join = () => {
     };
 
     if (!validID()) {
-      console.log("아이디를 입력해주세요.");
+      alert("아이디를 입력해주세요!");
       return;
     }
 
     if (!validPW()) {
-      console.log("비밀번호를 입력해주세요.");
+      alert("비밀번호를 입력해주세요.");
       return;
     }
 
@@ -45,49 +47,65 @@ const Join = () => {
       })
       .then((res) => {
         if (res.data == 403) {
-          console.log("이미 존재하는 아이디입니다.");
+          alert("이미 존재하는 아이디입니다.");
         } else {
           document.location.href = "/";
         }
       })
-      .catch(console.log(inputId, inputPw));
   };
 
   const onClickMainPage = () => {
-    document.location.href = "/";
+    setIsJoin(false);
   };
 
   return (
-    <div>
-      <h2>Join</h2>
-      <form>
-        <div>
-          <label htmlFor="input_id">ID : </label>
-          <input
-            type="text"
-            name="id"
-            value={inputId}
-            onChange={handleInputId}
-          />
+    <div className = "main">
+      <div className="form-join">
+        <h1 className="mb-3 fw-bold">Franz DM</h1>
+        <div className="h4 mb-3 fw-bold">  가입하기 </div>
+        <form>
+          <div className="form-floating input-container">
+            <label htmlFor="input_id" className={inputId && "filled"}>
+              Enter ID{" "}
+            </label>
+            <input
+              type="id"
+              name="input_id"
+              value={inputId}
+              onChange={handleInputId}
+              className="form-control"
+            />
+          </div>
+          <div className="form-floating input-container">
+            <label htmlFor="password" className={inputPw && "filled"}>
+              Enter password{" "}
+            </label>
+            <input
+              type="password"
+              name="input_pw"
+              value={inputPw}
+              onChange={handleInputPw}
+              className="form-control"
+            />
+          </div>
+          <div>
+            <button
+              type="button"
+              onClick={onClickJoin}
+              className="w-100 btn btn-lg btn-primary"
+            >
+              Join
+            </button>
+          </div>
+        </form>
         </div>
-        <div>
-          <label htmlFor="password">PW : </label>
-          <input
-            type="password"
-            name="input_pw"
-            value={inputPw}
-            onChange={handleInputPw}
-          />
-        </div>
-        <div>
-          <button type="button" onClick={onClickJoin}>
-            Join
+
+        <div className="login">
+          <div>계정이 있으신가요?</div>
+          <button type="button" onClick={onClickMainPage} className="btn btn-link">
+            로그인
           </button>
         </div>
-      </form>
-      <button type="button" onClick={onClickMainPage}>
-        메인 페이지로 돌아가기
-      </button>
     </div>
   );
 };
