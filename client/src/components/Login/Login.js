@@ -25,7 +25,7 @@ const Login = ({ setIsJoin }) => {
       })
       .then((res) => {
         if (res.data) {
-          sessionStorage.setItem("user_id", inputId);
+          sessionStorage.setItem("user_name", inputId);
           document.location.href = "/";
         } else {
           alert("아이디 또는 패스워드를 확인해주세요.");
