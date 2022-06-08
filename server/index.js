@@ -16,7 +16,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const port = 5050;
+const port = process.env.API_PORT;
 
 try {
   await db.authenticate();
@@ -46,7 +46,7 @@ app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
 
-const wss = new WebSocketServer({ port: 3001 });
+const wss = new WebSocketServer({ port: process.env.WS_PORT });
 
 wss.on("connection", (ws, req) => {
   const init = async () => {

@@ -3,7 +3,7 @@ import { generateUniqueID } from "../utils.js";
 
 const kafka = new Kafka({
   clientId: "app",
-  brokers: ["localhost:29092"],
+  brokers: [process.env.KAFKA_URL],
   logLevel: logLevel.ERROR,
 });
 
