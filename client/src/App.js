@@ -8,10 +8,9 @@ function App () {
   
   useEffect(() => {
     if(sessionStorage.getItem('user_id') === null || sessionStorage.getItem('user_id') === 'null'){
-      console.log('isLogin ?? :: ', isLogin)
+      setIsLogin(false);
     } else {
-      setIsLogin(true)
-      console.log('isLogin ?? :: ', isLogin)
+      setIsLogin(true);
     }
   }, [])
   return (
