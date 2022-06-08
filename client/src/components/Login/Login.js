@@ -29,8 +29,7 @@ const Login = ({ setIsJoin }) => {
           sessionStorage.setItem("user_id", inputId);
           document.location.href = "/";
         } else {
-          console.log("로그인 정보가 일치하지 않습니다.");
-          alert('아이디 또는 패스워드를 확인해주세요!');
+          alert("아이디 또는 패스워드를 확인해주세요!");
         }
       })
       .catch(console.log(inputId, inputPw));
@@ -80,9 +79,9 @@ const Login = ({ setIsJoin }) => {
         </form>
       </div>
       <div className="join">
-        <div>Don't have an account?</div>
+        <div>계정이 없으신가요?</div>
         <button type="button" onClick={onClickJoin} className="btn btn-link">
-          Join
+          가입하기
         </button>
       </div>
     </div>
