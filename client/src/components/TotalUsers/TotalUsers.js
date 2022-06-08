@@ -12,7 +12,7 @@ function User({ users, setCurrentChat, setMessages, setRoomId, currentChat }) {
   }, []);
 
   const changeCurrentChat = () => {
-    if(currentChat !== user){
+    if (currentChat !== user) {
       setCurrentChat(user);
 
       // RoomId 초기화
