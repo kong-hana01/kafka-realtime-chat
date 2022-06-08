@@ -8,16 +8,18 @@ function User({ users, setCurrentChat, setMessages, setRoomId, currentChat }) {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    setUser(users.username);
+    setUser(users.id);
   }, []);
 
   const changeCurrentChat = () => {
-    setCurrentChat(user);
+    if(currentChat !== user){
+      setCurrentChat(user);
 
-    // RoomId 초기화
-    setRoomId(user);
-    // Message 초기화
-    setMessages([]);
+      // RoomId 초기화
+      setRoomId(user);
+      // Message 초기화
+      setMessages([]);
+    }
   };
 
   return (
@@ -81,7 +83,7 @@ export const TotalUsers = ({
           value={searchUsers}
           onChange={handleSearchUsers}
         />
-        <button onClick={getUsers} className="refresh btn btn-secondary">
+        <button onClick={getUsers} className="refresh btn btn-outline-dark">
           새로고침
         </button>
       </div>
@@ -90,7 +92,7 @@ export const TotalUsers = ({
         .map((u) => (
           <User
             users={u}
-            key={u.username}
+            key={u.userId}
             setCurrentChat={setCurrentChat}
             setMessages={setMessages}
             setRoomId={setRoomId}
