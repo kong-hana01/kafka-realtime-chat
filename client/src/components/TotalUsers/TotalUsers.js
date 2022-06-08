@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./TotalUsers.css";
+import "bootstrap/dist/css/bootstrap.css";
 import { API_URL } from "../../constants";
 
 function User({ users, setCurrentChat, setMessages, setRoomId }) {
@@ -27,6 +28,9 @@ function User({ users, setCurrentChat, setMessages, setRoomId }) {
   );
 }
 
+
+
+
 export const TotalUsers = ({
   totalUsers,
   setTotalUsers,
@@ -34,6 +38,7 @@ export const TotalUsers = ({
   setMessages,
   setRoomId,
 }) => {
+  const [searchUsers, setSearchUsers] = useState('');
   const getUsers = () => {
     try {
       axios
@@ -52,6 +57,11 @@ export const TotalUsers = ({
     }
   };
 
+  const handleSearchUsers = (e) => {
+    setSearchUsers(e.target.value);
+  }
+
+
   useEffect(() => {
     try {
       getUsers();
@@ -63,12 +73,15 @@ export const TotalUsers = ({
   return (
     <div>
       <div className="searchUsers">
-        <input placeholder="Search for Users" className="SearchUserInput" />
-        <button onClick={getUsers} className="refresh">
+        <input placeholder="Search for Users" 
+              className="SearchUserInput" 
+              value={searchUsers}
+              onChange={handleSearchUsers}/>
+        <button onClick={getUsers} className="refresh btn btn-secondary">
           새로고침
         </button>
       </div>
-      {totalUsers.map((u) => (
+      {totalUsers.filter((u) => (u.userId).toString().includes(searchUsers)).map((u) => (
         <User
           users={u}
           key={u.userId}
