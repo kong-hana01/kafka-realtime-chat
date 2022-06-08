@@ -4,7 +4,7 @@ import { API_URL } from "../../constants";
 import "bootstrap/dist/css/bootstrap.css";
 import "./Join.css";
 
-const Join = ({setIsJoin}) => {
+const Join = ({ setIsJoin }) => {
   const [inputId, setInputId] = useState("");
   const [inputPw, setInputPw] = useState("");
   // input data 의 변화가 있을 때마다 value 값을 변경해서 useState 해준다
@@ -51,7 +51,7 @@ const Join = ({setIsJoin}) => {
         } else {
           document.location.href = "/";
         }
-      })
+      });
   };
 
   const onClickMainPage = () => {
@@ -59,10 +59,10 @@ const Join = ({setIsJoin}) => {
   };
 
   return (
-    <div className = "main">
+    <div className="main">
       <div className="form-join">
         <h1 className="mb-3 fw-bold">Franz DM</h1>
-        <div className="h4 mb-3 fw-bold">  가입하기 </div>
+        <div className="h4 mb-3 fw-bold"> 가입하기 </div>
         <form>
           <div className="form-floating input-container">
             <label htmlFor="input_id" className={inputId && "filled"}>
@@ -98,14 +98,18 @@ const Join = ({setIsJoin}) => {
             </button>
           </div>
         </form>
-        </div>
+      </div>
 
-        <div className="login">
-          <div>계정이 있으신가요?</div>
-          <button type="button" onClick={onClickMainPage} className="btn btn-link">
-            로그인
-          </button>
-        </div>
+      <div className="login">
+        <div>계정이 있으신가요?</div>
+        <button
+          type="button"
+          onClick={onClickMainPage}
+          className="btn btn-link"
+        >
+          로그인
+        </button>
+      </div>
     </div>
   );
 };
