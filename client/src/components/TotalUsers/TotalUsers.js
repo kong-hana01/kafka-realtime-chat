@@ -8,12 +8,12 @@ function User({ users, setCurrentChat, setMessages, setRoomId, currentChat }) {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    setUser(users.id);
+    setUser(users.username);
   }, []);
 
   const changeCurrentChat = () => {
-    if (currentChat !== user) {
-      setCurrentChat(user);
+    if (currentChat !== users.id) {
+      setCurrentChat(users.id);
 
       // RoomId 초기화
       setRoomId(user);
@@ -24,7 +24,7 @@ function User({ users, setCurrentChat, setMessages, setRoomId, currentChat }) {
 
   return (
     <div onClick={changeCurrentChat}>
-      {currentChat !== user ? (
+      {currentChat !== users.id ? (
         <div className="userInformation">{user}</div>
       ) : (
         <div className="userInformation" id="currentChat">
