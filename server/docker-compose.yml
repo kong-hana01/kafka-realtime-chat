@@ -8,7 +8,7 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - 22181:2181
-  
+
   kafka:
     image: confluentinc/cp-kafka:latest
     platform: linux/amd64
@@ -43,6 +43,7 @@ services:
       target: dev
     volumes:
       - .:/src
+      - /src/node_modules
     command: npm run start:dev
     ports:
       - "5050:5050"
