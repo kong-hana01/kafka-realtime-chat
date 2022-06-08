@@ -1,5 +1,5 @@
 import { Router } from "express";
-import sequelize from "../models/index.js";
+import db from "../models/index.js";
 
 const apiAuthRouter = Router();
 
@@ -21,7 +21,7 @@ apiAuthRouter.post("/login", async (req, res) => {
   const id = req.body.id;
   const password = req.body.password;
 
-  const user = await sequelize.Users.findOne({
+  const user = await db.Users.findOne({
     where: { username: id, password: password },
   });
   if (user) {
@@ -35,13 +35,13 @@ apiAuthRouter.post("/join", async (req, res) => {
   const id = req.body.id;
   const password = req.body.password;
 
-  const user = await sequelize.Users.findOne({ where: { username: id } });
+  const user = await db.Users.findOne({ where: { username: id } });
   if (user) {
     res.send(false);
     return;
   }
 
-  sequelize.Users.create({ username: id, password: password });
+  db.Users.create({ username: id, password: password });
   res.send(true);
 });
 
