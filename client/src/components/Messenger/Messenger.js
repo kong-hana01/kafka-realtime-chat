@@ -42,7 +42,7 @@ const Messenger = ({setIsLogin}) => {
           </div>
         </div>
       </div>
-      <button onClick={onClickLogout} className="Logout btn btn-lg btn-primary">
+      <button onClick={onClickLogout} className="Logout btn btn-lg btn-secondary">
           로그아웃
         </button>
       </div>
