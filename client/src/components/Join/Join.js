@@ -21,12 +21,12 @@ const Join = ({setIsJoin}) => {
   // 그 외에는 회원가입 성공
   const onClickJoin = () => {
     const validID = () => {
-      if (inputId == "") return 0;
+      if (inputId === "") return 0;
       return 1;
     };
 
     const validPW = () => {
-      if (inputPw == "") return 0;
+      if (inputPw === "") return 0;
       return 1;
     };
 
@@ -46,7 +46,7 @@ const Join = ({setIsJoin}) => {
         password: inputPw,
       })
       .then((res) => {
-        if (res.data == 403) {
+        if (res.data === 403) {
           alert("이미 존재하는 아이디입니다.");
         } else {
           document.location.href = "/";

@@ -1,5 +1,8 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { CHAT_API_URL } from "../../constants";
+import Loading from '../Loading/Loading';
+
+import "bootstrap/dist/css/bootstrap.css";
 import "./ChatRoom.css";
 
 function Message({ message, own }) {
@@ -15,33 +18,19 @@ function Message({ message, own }) {
 
 const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
   const [sendMessages, setSendMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
   let ws = useRef(null);
+  const scrollRef = useRef();
 
   const handleSendMessage = (e) => {
     setSendMessages(e.target.value);
   };
 
-  useEffect(() => {
-    if (!currentChat) {
-      return;
-    }
-
-    const url = new URL(CHAT_API_URL);
-    url.searchParams.append("senderId", sessionStorage.getItem("user_id"));
-    url.searchParams.append("receiverId", currentChat);
-
-    ws.current = new WebSocket(url.href);
-    ws.current.onopen = (event) => {
-      console.log("ws is open", ws.current);
-    };
-  }, [currentChat]);
-
-  useEffect(() => {
-    if (!currentChat) {
-      return;
-    }
-
-    ws.current.onmessage = (event) => {
+  const mainApi = async() => {
+    setLoading(true);
+    try {
+      const onMessage = () => {
+      ws.current.onmessage = (event) => {
       console.log("msg arrived: ", event.data);
 
       const payload = JSON.parse(event.data);
@@ -51,6 +40,37 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
         setMessages((messages) => [...messages, payload]);
       }
     };
+  }
+  const result = await onMessage();
+  setLoading(false);
+  } catch (e) {
+    window.alert(e);
+  }
+  }
+
+
+  useEffect(() => {
+    if (!currentChat) {
+      return;
+    }
+    
+    const url = new URL(CHAT_API_URL);
+    url.searchParams.append("senderId", sessionStorage.getItem("user_id"));
+    url.searchParams.append("receiverId", currentChat);
+
+    ws.current = new WebSocket(url.href);
+    ws.current.onopen = (event) => {
+      setLoading(true);
+      console.log("ws is open", ws.current);
+    };
+    
+  }, [currentChat]);
+
+  useEffect(() => {
+    if (!currentChat) {
+      return;
+    }
+    mainApi();
   });
 
   const sendMsg = () => {
@@ -67,18 +87,27 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
     }
   };
 
+  useEffect(() => {
+    if(scrollRef.current){
+    scrollRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
   return (
     <div>
       {currentChat ? (
         <>
           <div className="chatRoomTop">
+           {loading ? <Loading /> : null}
             {messages
               .sort((m1, m2) => m1.timestamp < m2.timestamp)
               .map((m) => (
+                <div ref = {scrollRef}>
                 <Message
                   message={m}
                   own={m.senderId === sessionStorage.getItem("user_id")}
                 />
+                </div>
               ))}
           </div>
           <div className="chatRoomBottom">
@@ -89,7 +118,7 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
               value={sendMessages}
               onChange={handleSendMessage}
             />
-            <button id="buttonSend" onClick={sendMsg}>
+            <button id="buttonSend" className = "btn btn-lg btn-primary" onClick={sendMsg}>
               Send
             </button>
           </div>
