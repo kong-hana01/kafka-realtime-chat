@@ -45,11 +45,6 @@ app.use(bodyParser.json());
 
 app.use(cors({ origin: process.env.FRONTEND_URL || "http://localhost:3000" }));
 
-app.get("/", (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.sendFile(path.join(__dirname + "/view/index.html"));
-});
-
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
