@@ -48,7 +48,12 @@ export const TotalUsers = ({
     try {
       axios.get(`${API_URL}/api/users`).then((res) => {
         if (res.data) {
-          sessionStorage.setItem("user_id", res.data.filter((u) => u.username === sessionStorage.getItem("user_name"))[0].id);
+          sessionStorage.setItem(
+            "user_id",
+            res.data.filter(
+              (u) => u.username === sessionStorage.getItem("user_name")
+            )[0].id
+          );
           setTotalUsers(
             res.data.filter(
               (u) => u.username !== sessionStorage.getItem("user_name")
