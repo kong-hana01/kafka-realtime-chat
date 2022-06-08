@@ -27,6 +27,7 @@ const Messenger = ({setIsLogin}) => {
               setCurrentChat={setCurrentChat}
               setMessages={setMessages}
               setRoomId={setRoomId}
+              currentChat={currentChat}
             />
           </div>
         </div>
@@ -42,7 +43,7 @@ const Messenger = ({setIsLogin}) => {
         </div>
       </div>
       <button onClick={onClickLogout} className="Logout btn btn-lg btn-primary">
-          Logout
+          로그아웃
         </button>
       </div>
     </>
