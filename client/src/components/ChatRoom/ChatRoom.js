@@ -80,7 +80,6 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
         receiverId: currentChat,
         timestamp: Date(),
       };
-      console.log(ws.current);
       ws.current.send(JSON.stringify(payload));
     }
   };
