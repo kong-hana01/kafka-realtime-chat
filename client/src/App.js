@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Messenger from "./components/Messenger/Messenger";
 import LoginPage from "./components/LoginPage/LoginPage";
-
+import "./App.css";
 
 function App () {
   const [isLogin, setIsLogin] = useState(false);
@@ -15,7 +15,7 @@ function App () {
     }
   }, [])
   return (
-    <div>
+    <div className = "App">
       {isLogin ? <Messenger setIsLogin = {setIsLogin}/> : <LoginPage />}
     </div>
   )
