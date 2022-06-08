@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { API_URL } from "../../constants";
+import "bootstrap/dist/css/bootstrap.css";
+import "./Login.css";
 
 const Login = ({ setIsJoin }) => {
   const [inputId, setInputId] = useState("");
@@ -28,6 +30,7 @@ const Login = ({ setIsJoin }) => {
           document.location.href = "/";
         } else {
           console.log("로그인 정보가 일치하지 않습니다.");
+          alert('아이디 또는 패스워드를 확인해주세요!');
         }
       })
       .catch(console.log(inputId, inputPw));
@@ -37,36 +40,51 @@ const Login = ({ setIsJoin }) => {
     setIsJoin(true);
   };
   return (
-    <div>
-      <h2>Login</h2>
-      <form>
-        <div>
-          <label htmlFor="input_id">ID : </label>
-          <input
-            type="text"
-            name="id"
-            value={inputId}
-            onChange={handleInputId}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">PW : </label>
-          <input
-            type="password"
-            name="input_pw"
-            value={inputPw}
-            onChange={handleInputPw}
-          />
-        </div>
-        <div>
-          <button type="button" onClick={onClickLogin}>
-            Login
-          </button>
-        </div>
-      </form>
-      <button type="button" onClick={onClickJoin}>
-        Join
-      </button>
+    <div className="main">
+      <div className="form-login">
+        <h1 className="mb-3 fw-bold">Franz DM</h1>
+        <form>
+          <div className="form-floating input-container">
+            <label htmlFor="input_id" className={inputId && "filled"}>
+              Enter ID{" "}
+            </label>
+            <input
+              type="id"
+              name="input_id"
+              value={inputId}
+              onChange={handleInputId}
+              className="form-control"
+            />
+          </div>
+          <div className="form-floating input-container">
+            <label htmlFor="password" className={inputPw && "filled"}>
+              Enter password{" "}
+            </label>
+            <input
+              type="password"
+              name="input_pw"
+              value={inputPw}
+              onChange={handleInputPw}
+              className="form-control"
+            />
+          </div>
+          <div>
+            <button
+              type="button"
+              onClick={onClickLogin}
+              className="w-100 btn btn-lg btn-primary"
+            >
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
+      <div className="join">
+        <div>Don't have an account?</div>
+        <button type="button" onClick={onClickJoin} className="btn btn-link">
+          Join
+        </button>
+      </div>
     </div>
   );
 };
