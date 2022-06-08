@@ -17,6 +17,21 @@ body {
   justify-content: center;
 }
 
+.main {
+  max-height: 1300px;
+  max-width: 900px;
+  background-color:rgba(0, 0, 0, 0.06);
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  padding: 80px;
+  border: 1px solid;
+  border-radius:0;
+  border-color: aliceblue;
+  background-color: #fafafa;
+}
+
+
 .form-login {
   width: 100%;
   max-width: 700px;
