@@ -1,18 +1,58 @@
-const rooms = {
-  "1-2": "12",
-  "2-3": "23",
-  "1-3": "13",
-};
+import db from "../models/index.js";
 
-const getRoomId = (senderId, receiverId) => {
-  let roomKey;
-  if (senderId < receiverId) {
-    roomKey = `${senderId}-${receiverId}`;
-  } else {
-    roomKey = `${receiverId}-${senderId}`;
+const getRoomId = async (senderId, receiverId) => {
+  let room;
+
+  room = await db.Rooms.findOne({
+    where: { firstUserId: senderId, secondUserId: receiverId },
+  });
+
+  if (!room) {
+    room = await db.Rooms.findOne({
+      where: { firstUserId: receiverId, secondUserId: senderId },
+    });
   }
 
-  return rooms[roomKey];
+  if (!room) {
+    room = await db.Rooms.create({
+      firstUserId: senderId,
+      secondUserId: receiverId,
+    });
+
+    await createRoom();
+  }
+
+  return room.id;
 };
 
-export { getRoomId };
+const createRoom = async (roomId) => {
+  const producer = kafka.producer();
+  await producer.connect();
+
+  const admin = kafka.admin();
+  admin.connect();
+
+  await admin.createTopics({
+    waitForLeaders: true,
+    topics: [{ topic: roomId }],
+  });
+
+  await producer.disconnect();
+  await admin.disconnect();
+
+  return roomId;
+};
+
+const deleteRoom = async (roomId) => {
+  const admin = kafka.admin();
+  await admin.connect();
+
+  await admin.deleteTopics({
+    topics: [roomId],
+    timeout: 3000,
+  });
+
+  await admin.disconnect();
+};
+
+export { getRoomId, createRoom };
