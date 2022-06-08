@@ -27,6 +27,7 @@ const Messenger = ({setIsLogin}) => {
               setCurrentChat={setCurrentChat}
               setMessages={setMessages}
               setRoomId={setRoomId}
+              currentChat={currentChat}
             />
           </div>
         </div>

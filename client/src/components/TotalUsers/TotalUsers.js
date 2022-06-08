@@ -4,7 +4,7 @@ import "./TotalUsers.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { API_URL } from "../../constants";
 
-function User({ users, setCurrentChat, setMessages, setRoomId }) {
+function User({ users, setCurrentChat, setMessages, setRoomId, currentChat}) {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -19,11 +19,15 @@ function User({ users, setCurrentChat, setMessages, setRoomId }) {
     setRoomId(user);
     // Message 초기화
     setMessages([]);
+
+    console.log(currentChat);
   };
 
   return (
     <div onClick={changeCurrentChat}>
-      <div className="userInformation">{user}</div>
+      {currentChat!=user?
+      <div className="userInformation">{user}</div>:
+      <div className="userInformation" id="currentChat">{user}</div>}
     </div>
   );
 }
@@ -35,6 +39,7 @@ export const TotalUsers = ({
   setCurrentChat,
   setMessages,
   setRoomId,
+  currentChat
 }) => {
   const [searchUsers, setSearchUsers] = useState('');
   const getUsers = () => {
@@ -46,7 +51,7 @@ export const TotalUsers = ({
             console.log(res.data.filter((u) => u.username !== sessionStorage.getItem('user_id')));
             setTotalUsers(res.data.filter((u) => u.username !== sessionStorage.getItem('user_id')));
           } else {
-            console.log(
+            alert(
               "채팅가능 목록을 확인하기 위해선 로그인을 하셔야합니다."
             );
           }
@@ -88,6 +93,7 @@ export const TotalUsers = ({
           setCurrentChat={setCurrentChat}
           setMessages={setMessages}
           setRoomId={setRoomId}
+          currentChat={currentChat}
         />
       ))}
     </div>

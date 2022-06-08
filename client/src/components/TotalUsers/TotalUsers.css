@@ -28,3 +28,12 @@
 .userInformation:hover{
     background-color: rgb(245, 243, 243);
 }
+
+#currentChat{
+    background-color: #ccc;
+    font-weight: 700;
+    font-size: 21px;
+    color: #FFFFFF;
+    border:rgb(245, 243, 243);
+    box-shadow : 0.5px 0.5px 0.5px rgb(168, 166, 166);
+}
