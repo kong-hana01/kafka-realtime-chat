@@ -22,7 +22,7 @@
     padding: 10px;
     font-weight: 500;
     cursor: pointer;
-    margin-top: 20px;
+    margin: 20px 20px 0 0;
 }
 
 .userInformation:hover{
