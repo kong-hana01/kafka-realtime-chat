@@ -7,7 +7,7 @@ const LoginPage = () => {
 
   return (
       <div>
-        {isJoin ? <Join /> : <Login setIsJoin = {setIsJoin}/> }
+        {isJoin ? <Join setIsJoin = {setIsJoin}/> : <Login setIsJoin = {setIsJoin}/> }
       </div>
   );
 };
