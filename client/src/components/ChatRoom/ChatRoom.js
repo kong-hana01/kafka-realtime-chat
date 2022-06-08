@@ -27,7 +27,6 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
   };
 
   const mainApi = async() => {
-    setLoading(true);
     try {
       const onMessage = () => {
       ws.current.onmessage = (event) => {
@@ -42,7 +41,6 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
     };
   }
   const result = await onMessage();
-  setLoading(false);
   } catch (e) {
     window.alert(e);
   }
@@ -53,14 +51,14 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
     if (!currentChat) {
       return;
     }
-    
+    setLoading(true);
     const url = new URL(CHAT_API_URL);
     url.searchParams.append("senderId", sessionStorage.getItem("user_id"));
     url.searchParams.append("receiverId", currentChat);
 
     ws.current = new WebSocket(url.href);
     ws.current.onopen = (event) => {
-      setLoading(true);
+      setTimeout(() => {setLoading(false);}, 3000)
       console.log("ws is open", ws.current);
     };
     
