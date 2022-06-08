@@ -20,11 +20,11 @@ export default function (sequelize, DataTypes) {
   );
 
   Rooms.belongsTo(sequelize.Users, {
-    foreignKey: "senderId",
+    foreignKey: "firstUserId",
     uniqueKey: "UniqueSenderIdReceiverId",
   });
   Rooms.belongsTo(sequelize.Users, {
-    foreignKey: "receiverId",
+    foreignKey: "secondUserId",
     uniqueKey: "UniqueSenderIdReceiverId",
   });
 
