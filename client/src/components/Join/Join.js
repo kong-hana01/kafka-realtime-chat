@@ -52,7 +52,12 @@ const Join = ({setIsJoin}) => {
           document.location.href = "/";
         }
       })
+
   };
+  const onKeyJoin= (e) => {
+    if (e.key == "Enter") onClickJoin();
+  }
+
 
   const onClickMainPage = () => {
     setIsJoin(false);
@@ -74,6 +79,7 @@ const Join = ({setIsJoin}) => {
               value={inputId}
               onChange={handleInputId}
               className="form-control"
+              onKeyPress={onKeyJoin}
             />
           </div>
           <div className="form-floating input-container">
@@ -86,6 +92,7 @@ const Join = ({setIsJoin}) => {
               value={inputPw}
               onChange={handleInputPw}
               className="form-control"
+              onKeyPress={onKeyJoin}
             />
           </div>
           <div>

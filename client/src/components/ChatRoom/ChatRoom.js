@@ -85,6 +85,10 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
     }
   };
 
+  const onKeySendMsg = (e) => {
+    if(e.key === "Enter") sendMsg();
+  }
+
   useEffect(() => {
     if(scrollRef.current){
     scrollRef.current.scrollIntoView({ behavior: "smooth" });
@@ -116,6 +120,7 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
               placeholder="내용을 입력해주세요."
               value={sendMessages}
               onChange={handleSendMessage}
+              onKeyPress = {onKeySendMsg}
             />
             <button id="buttonSend" className = "btn btn-lg btn-primary" onClick={sendMsg}>
               보내기
