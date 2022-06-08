@@ -11,9 +11,9 @@ COPY . /src/
 CMD ["node", "bin/www"]
 
 FROM base as dev
+
 ENV NODE_ENV=development
 RUN npm install -g nodemon
 COPY package.json /src/
 RUN npm install
-COPY . /src/
 CMD ["nodemon", "bin/www"]
