@@ -73,12 +73,13 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
 
   const sendMsg = () => {
     if (sendMessages !== "") {
+      var now = new Date();
       const payload = {
         type: "send_msg",
         text: sendMessages,
         senderId: sessionStorage.getItem("user_id"),
         receiverId: currentChat,
-        timestamp: Date(),
+        timestamp: now.getHours() + ":" + now.getMinutes(),
       };
       ws.current.send(JSON.stringify(payload));
     }
@@ -110,7 +111,8 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
           <div className="chatRoomBottom">
             <input
               type="text"
-              className="MessageInput"
+              className="MessageInput form-control"
+              rows="2"
               placeholder="내용을 입력해주세요."
               value={sendMessages}
               onChange={handleSendMessage}
