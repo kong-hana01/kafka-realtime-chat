@@ -46,7 +46,7 @@ const Join = ({setIsJoin}) => {
         password: inputPw,
       })
       .then((res) => {
-        if (res.data === 403) {
+        if (!res.data) {
           alert("이미 존재하는 아이디입니다.");
         } else {
           document.location.href = "/";
