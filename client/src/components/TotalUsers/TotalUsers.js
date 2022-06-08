@@ -8,12 +8,12 @@ function User({ users, setCurrentChat, setMessages, setRoomId, currentChat }) {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    setUser(users.id);
+    setUser(users.username);
   }, []);
 
   const changeCurrentChat = () => {
-    if(currentChat !== user){
-      setCurrentChat(user);
+    if (currentChat !== users.id) {
+      setCurrentChat(users.id);
 
       // RoomId 초기화
       setRoomId(user);
@@ -24,7 +24,7 @@ function User({ users, setCurrentChat, setMessages, setRoomId, currentChat }) {
 
   return (
     <div onClick={changeCurrentChat}>
-      {currentChat !== user ? (
+      {currentChat !== users.id ? (
         <div className="userInformation">{user}</div>
       ) : (
         <div className="userInformation" id="currentChat">
@@ -48,9 +48,10 @@ export const TotalUsers = ({
     try {
       axios.get(`${API_URL}/api/users`).then((res) => {
         if (res.data) {
+          sessionStorage.setItem("user_id", res.data.filter((u) => u.username === sessionStorage.getItem("user_name"))[0].id);
           setTotalUsers(
             res.data.filter(
-              (u) => u.username !== sessionStorage.getItem("user_id")
+              (u) => u.username !== sessionStorage.getItem("user_name")
             )
           );
         } else {

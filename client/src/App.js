@@ -7,7 +7,7 @@ function App () {
   const [isLogin, setIsLogin] = useState(false);
   
   useEffect(() => {
-    if(sessionStorage.getItem('user_id') === null || sessionStorage.getItem('user_id') === 'null'){
+    if(sessionStorage.getItem('user_name') === null || sessionStorage.getItem('user_name') === 'null'){
       setIsLogin(false);
     } else {
       setIsLogin(true);
