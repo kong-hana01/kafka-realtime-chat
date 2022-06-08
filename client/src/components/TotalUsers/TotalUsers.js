@@ -9,7 +9,7 @@ function User({ users, setCurrentChat, setMessages, setRoomId }) {
 
   useEffect(() => {
     // const otherUserId = users.userId;
-    setUser(users.userId);
+    setUser(users.username);
   }, []);
 
   const changeCurrentChat = () => {
@@ -29,8 +29,6 @@ function User({ users, setCurrentChat, setMessages, setRoomId }) {
 }
 
 
-
-
 export const TotalUsers = ({
   totalUsers,
   setTotalUsers,
@@ -42,10 +40,11 @@ export const TotalUsers = ({
   const getUsers = () => {
     try {
       axios
-        .get(`${API_URL}/api/auth/` + sessionStorage.getItem("user_id"))
+        .get(`${API_URL}/api/users`)
         .then((res) => {
           if (res.data) {
-            setTotalUsers(res.data);
+            console.log(res.data.filter((u) => u.username !== sessionStorage.getItem('user_id')));
+            setTotalUsers(res.data.filter((u) => u.username !== sessionStorage.getItem('user_id')));
           } else {
             console.log(
               "채팅가능 목록을 확인하기 위해선 로그인을 하셔야합니다."
@@ -65,6 +64,7 @@ export const TotalUsers = ({
   useEffect(() => {
     try {
       getUsers();
+      console.log(totalUsers);
     } catch (err) {
       console.log(err);
     }
@@ -81,10 +81,10 @@ export const TotalUsers = ({
           새로고침
         </button>
       </div>
-      {totalUsers.filter((u) => (u.userId).toString().includes(searchUsers)).map((u) => (
+      {totalUsers.filter((u) => !searchUsers || (u.username).includes(searchUsers)).map((u) => (
         <User
           users={u}
-          key={u.userId}
+          key={u.username}
           setCurrentChat={setCurrentChat}
           setMessages={setMessages}
           setRoomId={setRoomId}
