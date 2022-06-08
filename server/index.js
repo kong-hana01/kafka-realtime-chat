@@ -8,12 +8,12 @@ import { WebSocketServer } from "ws";
 import bodyParser from "body-parser";
 import session from "express-session";
 import SequelizeStore from "connect-session-sequelize";
+import cors from "cors";
 
 import apiAuthRouter from "./api/auth.js";
 import { getMsgHistory, sendMsg } from "./chat/index.js";
-import cors from "cors";
 import { getRoomId } from "./chat/room.js";
-import sequelize from "./models/index.js";
+import db from "./models/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,15 +22,15 @@ const app = express();
 const port = 5050;
 
 try {
-  await sequelize.authenticate();
+  await db.authenticate();
   console.log("Connection has been established successfully.");
 } catch (error) {
   console.error("Unable to connect to the database:", error);
 }
 
-await sequelize.sync();
+db.sync();
 
-const store = new (SequelizeStore(session.Store))({ db: sequelize });
+const store = new (SequelizeStore(session.Store))({ db });
 store.sync();
 
 app.use(
@@ -43,7 +43,7 @@ app.use(
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors({ origin: process.env.FRONTEND_URL || "http://localhost:3000" }));
 
 app.get("/", (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
