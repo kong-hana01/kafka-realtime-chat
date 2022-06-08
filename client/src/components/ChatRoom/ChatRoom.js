@@ -126,7 +126,7 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
       ) : (
         <span className="noConversationText">
           {" "}
-          Open a conversation to start a chat
+          Open a conversation
         </span>
       )}
     </div>
