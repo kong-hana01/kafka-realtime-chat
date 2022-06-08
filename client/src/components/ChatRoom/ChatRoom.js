@@ -112,19 +112,19 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
             <input
               type="text"
               className="MessageInput"
-              placeholder="Write something ..."
+              placeholder="내용을 입력해주세요."
               value={sendMessages}
               onChange={handleSendMessage}
             />
             <button id="buttonSend" className = "btn btn-lg btn-primary" onClick={sendMsg}>
-              Send
+              보내기
             </button>
           </div>
         </>
       ) : (
         <span className="noConversationText">
           {" "}
-          Open a conversation
+          채팅방을 열어주세요.
         </span>
       )}
     </div>

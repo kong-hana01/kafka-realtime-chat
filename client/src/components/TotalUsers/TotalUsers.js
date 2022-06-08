@@ -78,7 +78,7 @@ export const TotalUsers = ({
   return (
     <div>
       <div className="searchUsers">
-        <input placeholder="Search for Users" 
+        <input placeholder="유저를 검색해주세요." 
               className="SearchUserInput" 
               value={searchUsers}
               onChange={handleSearchUsers}/>
