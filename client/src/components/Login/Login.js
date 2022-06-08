@@ -36,6 +36,11 @@ const Login = ({ setIsJoin }) => {
   const onClickJoin = () => {
     setIsJoin(true);
   };
+
+  const onKeyLogin = (e) => {
+    if (e.key == "Enter") onClickLogin();
+  }
+
   return (
     <div className="main">
       <div className="form-login">
@@ -51,6 +56,7 @@ const Login = ({ setIsJoin }) => {
               value={inputId}
               onChange={handleInputId}
               className="form-control"
+              onKeyPress={onKeyLogin}
             />
           </div>
           <div className="form-floating input-container">
@@ -63,6 +69,7 @@ const Login = ({ setIsJoin }) => {
               value={inputPw}
               onChange={handleInputPw}
               className="form-control"
+              onKeyPress={onKeyLogin}
             />
           </div>
           <div>
