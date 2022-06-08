@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import TotalUsers from "../TotalUsers/TotalUsers";
 import ChatRoom from "../ChatRoom/ChatRoom";
+import "bootstrap/dist/css/bootstrap.css";
 import "./Messenger.css";
 
 const Messenger = ({setIsLogin}) => {
@@ -40,7 +41,7 @@ const Messenger = ({setIsLogin}) => {
           </div>
         </div>
       </div>
-      <button onClick={onClickLogout} className="Logout">
+      <button onClick={onClickLogout} className="Logout btn btn-lg btn-primary">
           Logout
         </button>
       </div>

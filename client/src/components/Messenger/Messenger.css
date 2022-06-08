@@ -1,6 +1,19 @@
+.messenger {
+    margin: auto;
+    /* max-width: 100%; */ 
+    /* max-height: 1800px; */
+    max-width: 1350px;
+    padding: 80px;
+    border: 1px solid;
+    border-radius:0;
+    border-color: aliceblue;
+    background-color: #fafafa;
+}
+
 .messengerContents {
     display: flex;
     width: 100%;
+    height: 650px;
 }
 
 .TotalUsers{
@@ -11,6 +24,10 @@
     flex: 5.5;
 }
 
+.TotalUserWrapper {
+    border-right: 1px solid #DBDBDB;
+    border-width: 1;
+}
 
 .TotalUserWrapper,.ChatRoomWrapper{
     padding: 10px;
@@ -21,7 +38,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    position: relative;
+    /* position: relative; */
 }
 
 .Logout{

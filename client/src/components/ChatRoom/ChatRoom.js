@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { CHAT_API_URL } from "../../constants";
+import "bootstrap/dist/css/bootstrap.css";
 import "./ChatRoom.css";
 
 function Message({ message, own }) {
@@ -16,6 +17,7 @@ function Message({ message, own }) {
 const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
   const [sendMessages, setSendMessages] = useState([]);
   let ws = useRef(null);
+  const scrollRef = useRef();
 
   const handleSendMessage = (e) => {
     setSendMessages(e.target.value);
@@ -67,6 +69,12 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
     }
   };
 
+  useEffect(() => {
+    if(scrollRef.current){
+    scrollRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
   return (
     <div>
       {currentChat ? (
@@ -75,10 +83,12 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
             {messages
               .sort((m1, m2) => m1.timestamp < m2.timestamp)
               .map((m) => (
+                <div ref = {scrollRef}>
                 <Message
                   message={m}
                   own={m.senderId === sessionStorage.getItem("user_id")}
                 />
+                </div>
               ))}
           </div>
           <div className="chatRoomBottom">
@@ -89,7 +99,7 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
               value={sendMessages}
               onChange={handleSendMessage}
             />
-            <button id="buttonSend" onClick={sendMsg}>
+            <button id="buttonSend" className = "btn btn-lg btn-primary" onClick={sendMsg}>
               Send
             </button>
           </div>
