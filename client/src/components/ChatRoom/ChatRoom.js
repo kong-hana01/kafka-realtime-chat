@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { CHAT_API_URL } from "../../constants";
-import Loading from '../Loading/Loading';
+import Loading from "../Loading/Loading";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "./ChatRoom.css";
@@ -26,26 +26,30 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
     setSendMessages(e.target.value);
   };
 
-  const mainApi = async() => {
+  const mainApi = () => {
     try {
-      const onMessage = () => {
-      ws.current.onmessage = (event) => {
-      console.log("msg arrived: ", event.data);
+      const onMessage = (currentChat) => {
+        ws.current.onmessage = (event) => {
+          const payload = JSON.parse(event.data);
+          console.log("payload: ", payload);
+          console.log("msg arrived: ", event.data);
 
-      const payload = JSON.parse(event.data);
-      console.log("payload: ", payload);
-
-      if (payload.type === "receive_msg") {
-        setMessages((messages) => [...messages, payload]);
-      }
-    };
-  }
-  const result = await onMessage();
-  } catch (e) {
-    window.alert(e);
-  }
-  }
-
+          if (
+            payload.senderId == sessionStorage.getItem("user_id") ||
+            (payload.receiverId == sessionStorage.getItem("user_id") &&
+              payload.senderId == currentChat)
+          ) {
+            if (payload.type === "receive_msg") {
+              setMessages((messages) => [...messages, payload]);
+            }
+          }
+        };
+      };
+      const result = onMessage(currentChat);
+    } catch (e) {
+      window.alert(e);
+    }
+  };
 
   useEffect(() => {
     if (!currentChat) {
@@ -58,10 +62,16 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
 
     ws.current = new WebSocket(url.href);
     ws.current.onopen = (event) => {
-      setTimeout(() => {setLoading(false);}, 3000)
+      setTimeout(() => {
+        setLoading(false);
+      }, 3000);
       console.log("ws is open", ws.current);
     };
-    
+
+    return () => {
+      console.log("clean up");
+      ws.current.close();
+    };
   }, [currentChat]);
 
   useEffect(() => {
@@ -87,12 +97,12 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
   };
 
   const onKeySendMsg = (e) => {
-    if(e.key === "Enter") sendMsg();
-  }
+    if (e.key === "Enter") sendMsg();
+  };
 
   useEffect(() => {
-    if(scrollRef.current){
-    scrollRef.current.scrollIntoView({ behavior: "smooth" });
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
 
@@ -101,15 +111,15 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
       {currentChat ? (
         <>
           <div className="chatRoomTop">
-           {loading ? <Loading /> : null}
+             {loading ? <Loading /> : null}
             {messages
               .sort((m1, m2) => m1.timestamp < m2.timestamp)
               .map((m) => (
-                <div ref = {scrollRef}>
-                <Message
-                  message={m}
-                  own={m.senderId === sessionStorage.getItem("user_id")}
-                />
+                <div ref={scrollRef}>
+                  <Message
+                    message={m}
+                    own={m.senderId === sessionStorage.getItem("user_id")}
+                  />
                 </div>
               ))}
           </div>
@@ -121,18 +131,19 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
               placeholder="내용을 입력해주세요."
               value={sendMessages}
               onChange={handleSendMessage}
-              onKeyPress = {onKeySendMsg}
+              onKeyPress={onKeySendMsg}
             />
-            <button id="buttonSend" className = "btn btn-lg btn-primary" onClick={sendMsg}>
+            <button
+              id="buttonSend"
+              className="btn btn-lg btn-primary"
+              onClick={sendMsg}
+            >
               보내기
             </button>
           </div>
         </>
       ) : (
-        <span className="noConversationText">
-          {" "}
-          채팅방을 열어주세요.
-        </span>
+        <span className="noConversationText"> 채팅방을 열어주세요.</span>
       )}
     </div>
   );
