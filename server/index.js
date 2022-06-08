@@ -67,8 +67,11 @@ wss.on("connection", (ws, req) => {
       if (payload.type === "send_msg") {
         const { senderId, receiverId, text } = payload;
 
-        const roomId = getRoomId(senderId, receiverId);
-        sendMsg(senderId, receiverId, roomId, text);
+        const sender = async () => {
+          const roomId = await getRoomId(senderId, receiverId);
+          sendMsg(senderId, receiverId, roomId, text);
+        };
+        sender();
       }
     } catch (SyntaxError) {
       console.log("invalid payload: ", data.toString());

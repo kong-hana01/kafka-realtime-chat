@@ -30,7 +30,7 @@ const Login = ({ setIsJoin }) => {
         } else {
           alert("아이디 또는 패스워드를 확인해주세요.");
         }
-      })
+      });
   };
 
   const onClickJoin = () => {
