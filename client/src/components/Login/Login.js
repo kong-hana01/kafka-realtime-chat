@@ -38,8 +38,8 @@ const Login = ({ setIsJoin }) => {
   };
 
   const onKeyLogin = (e) => {
-    if (e.key == "Enter") onClickLogin();
-  }
+    if (e.key === "Enter") onClickLogin();
+  };
 
   return (
     <div className="main">
