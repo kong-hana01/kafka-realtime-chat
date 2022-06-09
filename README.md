@@ -19,7 +19,7 @@ Instead of using a relational database for chat implementation, Apache Kafka is 
 
 ### Built With
 
-![image](https://user-images.githubusercontent.com/91586956/172683430-047f1453-4a66-4328-a440-2731ffedeba8.png)
+![image](https://user-images.githubusercontent.com/91586956/172762502-664c4028-ada3-4a23-b632-d24ee4766503.png)
 
 #### BackEnd
 
@@ -36,7 +36,9 @@ Instead of using a relational database for chat implementation, Apache Kafka is 
 
 ## Getting Started
 
-`git clone http://khuhub.khu.ac.kr/2014104103/kafka-realtime-chat.git`
+```sh
+git clone http://khuhub.khu.ac.kr/2014104103/kafka-realtime-chat.git
+```
 
 ### Server
 
@@ -60,9 +62,11 @@ Then go to <http://localhost:3000/> and use the chatting service.
 ## Deployment
 
 It is same as `Getting Started`. You can stop instances by the following command.
+
 ```sh
 docker compose down
 ```
+
 After this process, go to `Getting Started` and repeat the steps.
 
 ## Contributing
