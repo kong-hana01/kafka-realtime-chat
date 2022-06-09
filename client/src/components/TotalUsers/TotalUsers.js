@@ -93,18 +93,20 @@ export const TotalUsers = ({
           새로고침
         </button>
       </div>
-      {totalUsers
-        .filter((u) => !searchUsers || u.username.includes(searchUsers))
-        .map((u) => (
-          <User
-            users={u}
-            key={u.userId}
-            setCurrentChat={setCurrentChat}
-            setMessages={setMessages}
-            setRoomId={setRoomId}
-            currentChat={currentChat}
-          />
-        ))}
+      <div className="totalUserList">
+        {totalUsers
+          .filter((u) => !searchUsers || u.username.includes(searchUsers))
+          .map((u) => (
+            <User
+              users={u}
+              key={u.userId}
+              setCurrentChat={setCurrentChat}
+              setMessages={setMessages}
+              setRoomId={setRoomId}
+              currentChat={currentChat}
+            />
+          ))}
+      </div>
     </div>
   );
 };
