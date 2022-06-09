@@ -24,13 +24,13 @@ Instead of using a relational database for chat implementation, Apache Kafka is 
 #### BackEnd
 
 - Node.js
-  - Api
+  - API
   - WebSocket Server
 - Apache Kafka
+- PostgreSQL
 
 #### FrontEnd
 
-- Publishing
 - WebSocket Client
 - React
 
