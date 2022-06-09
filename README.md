@@ -1,5 +1,7 @@
 # Franz DM
 
+Go visit [Franz DM](https://franz.sinwoobang.me) and have fun :)
+
 ## About the Project
 
 The project is a recoverable chat service using Apache Kafka.
