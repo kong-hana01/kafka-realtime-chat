@@ -1,4 +1,5 @@
 import db from "../models/index.js";
+import { kafka } from "./index.js";
 
 const getRoomId = async (senderId, receiverId) => {
   let room;
@@ -19,7 +20,7 @@ const getRoomId = async (senderId, receiverId) => {
       secondUserId: receiverId,
     });
 
-    await createRoom();
+    await createRoom(room.id);
   }
 
   return room.id;
