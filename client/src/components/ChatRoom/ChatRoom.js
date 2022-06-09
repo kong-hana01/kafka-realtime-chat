@@ -40,8 +40,7 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
 
           if (
             payload.senderId === sessionStorage.getItem("user_id") ||
-            (payload.receiverId === sessionStorage.getItem("user_id") &&
-              payload.senderId === currentChat)
+            payload.receiverId === sessionStorage.getItem("user_id")
           ) {
             if (payload.type === "receive_msg") {
               setMessages((messages) => [...messages, payload]);
@@ -49,7 +48,7 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
           }
         };
       };
-      const result = onMessage(currentChat);
+      onMessage(currentChat);
     } catch (e) {
       window.alert(e);
     }
