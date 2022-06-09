@@ -6,12 +6,14 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./ChatRoom.css";
 
 function Message({ message, own }) {
+  const iso = new Date(message.timestamp).toISOString();
+
   return (
     <div className={own ? "message own" : "message"}>
       <div className="messageTop">
         <div className="messageText">{message.text}</div>
       </div>
-      <div className="messageBottom">{message.timestamp}</div>
+      <div className="messageBottom">{iso}</div>
     </div>
   );
 }
@@ -35,9 +37,9 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
           console.log("msg arrived: ", event.data);
 
           if (
-            payload.senderId == sessionStorage.getItem("user_id") ||
-            (payload.receiverId == sessionStorage.getItem("user_id") &&
-              payload.senderId == currentChat)
+            payload.senderId === sessionStorage.getItem("user_id") ||
+            (payload.receiverId === sessionStorage.getItem("user_id") &&
+              payload.senderId === currentChat)
           ) {
             if (payload.type === "receive_msg") {
               setMessages((messages) => [...messages, payload]);
