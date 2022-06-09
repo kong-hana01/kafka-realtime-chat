@@ -6,14 +6,17 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./ChatRoom.css";
 
 function Message({ message, own }) {
-  const iso = new Date(message.timestamp).toISOString();
+  const date = new Date(Number(message.timestamp));
+  date.setHours(date.getHours() + 9);
+
+  const dateTxt = `${date.getHours()}:${date.getMinutes()}`;
 
   return (
     <div className={own ? "message own" : "message"}>
       <div className="messageTop">
         <div className="messageText">{message.text}</div>
       </div>
-      <div className="messageBottom">{iso}</div>
+      <div className="messageBottom">{dateTxt}</div>
     </div>
   );
 }
