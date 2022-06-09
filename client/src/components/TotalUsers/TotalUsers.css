@@ -10,7 +10,6 @@
     display: flex;
     align-items: center;
     padding: 10px;
-    
 }
 
 .refresh {
@@ -38,9 +37,4 @@
     border:rgb(245, 243, 243);
     box-shadow : 0.5px 0.5px 0.5px rgb(168, 166, 166);
     cursor:default;
-}
-
-.totalUserList{
-    overflow-y: scroll;
-    height: 570px;
 }
