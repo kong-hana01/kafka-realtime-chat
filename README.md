@@ -44,6 +44,8 @@ Instead of using a relational database for chat implementation, Apache Kafka is 
 
 ### Server
 
+[![asciicast](https://asciinema.org/a/NWLRDluqB0Smu2rhxkAADFdxm.svg)](https://asciinema.org/a/NWLRDluqB0Smu2rhxkAADFdxm)
+
 ```sh
 cd server
 docker compose up
