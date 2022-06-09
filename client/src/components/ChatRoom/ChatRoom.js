@@ -35,9 +35,9 @@ const ChatRoom = ({ currentChat, messages, setMessages, roomId }) => {
           console.log("msg arrived: ", event.data);
 
           if (
-            payload.senderId == sessionStorage.getItem("user_id") ||
-            (payload.receiverId == sessionStorage.getItem("user_id") &&
-              payload.senderId == currentChat)
+            payload.senderId === sessionStorage.getItem("user_id") ||
+            (payload.receiverId === sessionStorage.getItem("user_id") &&
+              payload.senderId === currentChat)
           ) {
             if (payload.type === "receive_msg") {
               setMessages((messages) => [...messages, payload]);

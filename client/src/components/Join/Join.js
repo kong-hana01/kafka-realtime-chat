@@ -54,7 +54,7 @@ const Join = ({ setIsJoin }) => {
       });
   };
   const onKeyJoin = (e) => {
-    if (e.key == "Enter") onClickJoin();
+    if (e.key === "Enter") onClickJoin();
   };
 
   const onClickMainPage = () => {
