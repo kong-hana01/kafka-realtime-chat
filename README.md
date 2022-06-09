@@ -32,7 +32,7 @@ Instead of using a relational database for chat implementation, Apache Kafka is 
 - WebSocket Client
 - React
 
-## Getting Started(Installation)
+## Getting Started
 
 `git clone http://khuhub.khu.ac.kr/2014104103/kafka-realtime-chat.git`
 
@@ -54,6 +54,14 @@ npm start
 ```
 
 Then go to <http://localhost:3000/> and use the chatting service.
+
+## Deployment
+
+It is same as `Getting Started`. You can stop instances by the following command.
+```sh
+docker compose down
+```
+After this process, go to `Getting Started` and repeat the steps.
 
 ## Contributing
 
