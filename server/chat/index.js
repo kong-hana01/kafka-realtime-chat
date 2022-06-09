@@ -49,4 +49,4 @@ const getMsgHistory = async (roomId, cb) => {
   });
 };
 
-export { sendMsg, getMsgHistory };
+export { sendMsg, getMsgHistory, kafka };

@@ -1,4 +1,5 @@
 import db from "../models/index.js";
+import { kafka } from "./index.js";
 
 const getRoomId = async (senderId, receiverId) => {
   let room;
