@@ -1,9 +1,3 @@
-<img alt="Apache Kafka" src ="https://img.shields.io/badge/Apache Kafka-231F20.svg?&style=for-the-badge&logo=Apache Kafka&logoColor=white"/>
-<img alt="Node.js" src ="https://img.shields.io/badge/Node.js-339933.svg?&style=for-the-badge&logo=Node.js&logoColor=white"/>
-<img alt="Docker" src ="https://img.shields.io/badge/Docker-2496ED.svg?&style=for-the-badge&logo=Docker&logoColor=white"/>
-<img alt="React" src ="https://img.shields.io/badge/React-61DAFB.svg?&style=for-the-badge&logo=React&logoColor=white"/>
-<img alt="PostgreSQL" src ="https://img.shields.io/badge/PostgreSQL-4169E1.svg?&style=for-the-badge&logo=PostgreSQL&logoColor=white"/>
-
 # Franz DM
 
 ## About the Project
@@ -61,7 +55,7 @@ npm start
 
 Then go to <http://localhost:3000/> and use the chatting service.
 
-## contributing
+## Contributing
 
 Please refer to each project's style and contribution guidelines for submitting patches and additions. In general, we follow the "fork-and-pull" Git workflow.
 
