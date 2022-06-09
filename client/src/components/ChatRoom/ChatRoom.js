@@ -7,7 +7,6 @@ import "./ChatRoom.css";
 
 function Message({ message, own }) {
   const date = new Date(Number(message.timestamp));
-  date.setHours(date.getHours() + 9);
 
   const dateTxt = `${date.getHours()}:${date.getMinutes()}`;
 
